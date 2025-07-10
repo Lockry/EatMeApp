@@ -1,31 +1,69 @@
 package com.romeo.eatmeapp.ui.mainmenu
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.romeo.eatmeapp.R
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.romeo.eatmeapp.data.repository.MainMenuRepositoryImpl
+import com.romeo.eatmeapp.databinding.FragmentMainMenuBinding
+import com.romeo.eatmeapp.databinding.FragmentMenuBinding
+import com.romeo.eatmeapp.ui.adapters.MainMenuAdapter
+import kotlinx.coroutines.launch
 
 class MainMenuFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainMenuFragment()
+    private var _binding: FragmentMainMenuBinding? = null
+    private val binding get() = _binding!!
+
+    //фабрика
+    private val viewModel: MainMenuViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val repository = MainMenuRepositoryImpl()
+                return MainMenuViewModel(repository) as T
+            }
+        }
     }
 
-    private val viewModel: MainMenuViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
+    private lateinit var adapter: MainMenuAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_main_menu, container, false)
+        _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        adapter = MainMenuAdapter { mainMenuItem ->
+            Toast.makeText(requireContext(), "Нажали: ${mainMenuItem.name}", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.rVBtnMenu.adapter = adapter
+        binding.rVBtnMenu.layoutManager = CustomLayoutManager(requireContext())
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.mainMenuItem.collect { list ->
+                adapter.updateData(list)
+            }
+        }
+
+        viewModel.loadMenu()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

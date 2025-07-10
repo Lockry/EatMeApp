@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/menuFragment">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -16,12 +16,20 @@
     <fragment
         android:id="@+id/mainMenuFragment"
         android:name="com.romeo.eatmeapp.ui.mainmenu.MainMenuFragment"
-        android:label="Main Menu" />
+        android:label="Main Menu" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.romeo.eatmeapp.ui.menu.MenuFragment"
-        android:label="Menu" />
+        android:label="Menu" >
+        <action
+            android:id="@+id/action_menuFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/cartFragment"
