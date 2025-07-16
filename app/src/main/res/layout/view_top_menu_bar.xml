@@ -1,54 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/CustomToolBar"
-        android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp">
+
+    <ImageButton
+        android:id="@+id/btn_home_menu"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:background="@drawable/oval_button"
+        android:gravity="center"
+        android:src="@drawable/ic_home_btn_top"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tV_type_menu"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="8dp">
+        android:layout_marginStart="6dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Breakfast"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        app:autoSizeMaxTextSize="27sp"
+        app:autoSizeMinTextSize="14dp"
+        app:autoSizeStepGranularity="1sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barrier"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/btn_home_menu"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
-        <Button
-            android:id="@+id/btn_home_menu"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
-            android:background="@drawable/oval_button"
-            android:text="H"
-            android:textSize="20sp"
-            tools:ignore="HardcodedText" />
 
-        <TextView
-            android:id="@+id/tV_type_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="34sp"
-            android:text="Breakfast"
-            android:layout_marginStart="10dp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText"/>
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="btn_info_menu,btn_call_waiter_menu" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/btn_info_menu"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:text="i"
-            android:textSize="26sp"
-            android:background="@drawable/oval_button"
-            android:layout_marginEnd="20dp"
-            tools:ignore="HardcodedText"/>
+    <ImageButton
+        android:id="@+id/btn_info_menu"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/oval_button"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_letter_i_btn_top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_call_waiter_menu"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_call_waiter_menu"
-            android:layout_width="270dp"
-            android:layout_height="85dp"
-            android:textSize="34sp"
-            android:text="Call waiter"
-            tools:ignore="HardcodedText"/>
+    <Button
+        android:id="@+id/btn_call_waiter_menu"
+        android:layout_width="216dp"
+        android:layout_height="68dp"
+        android:text="Call waiter"
+        android:textSize="27sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
-    </LinearLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>

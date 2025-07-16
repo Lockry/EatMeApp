@@ -1,14 +1,21 @@
 package com.romeo.eatmeapp.ui.menu
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.romeo.eatmeapp.data.model.CategoryModel
 import com.romeo.eatmeapp.data.model.DishModel
+import com.romeo.eatmeapp.data.model.MenuItemModel
 import com.romeo.eatmeapp.data.model.SubCategoryModel
+import com.romeo.eatmeapp.data.repository.MenuDataSource
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
-class MenuViewModel : ViewModel() {
+
+class MenuViewModel(private val repository: MenuDataSource) : ViewModel() {
 
     private val _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val categories: StateFlow<List<CategoryModel>> = _categories.asStateFlow()
@@ -25,42 +32,53 @@ class MenuViewModel : ViewModel() {
     private val _currentDishes = MutableStateFlow<List<DishModel>>(emptyList())
     val currentDishes: StateFlow<List<DishModel>> = _currentDishes
 
-    fun setCategories(list: List<CategoryModel>) {
+
+    fun setMenu(list: List<CategoryModel>) {
         _categories.value = list
-        _selectedCategory.value = list.firstOrNull() // выберем первую по умолчанию
-        updateDishesForCategory()
+        _selectedCategory.value = list.firstOrNull()
     }
 
     fun selectCategory(category: CategoryModel) {
-        if (category.subcategories.isNotEmpty()) {
-            _currentSubcategories.value = category.subcategories
-            _currentDishes.value = emptyList()
+        _currentSubcategories.value = if (category.subcategories.isNotEmpty()) {
+            category.subcategories
         } else {
-            _currentDishes.value = category.dishes
-            _currentSubcategories.value = emptyList()
+            emptyList()
+        }
+
+        _currentDishes.value = if (category.subcategories.isEmpty()) {
+            category.dishes
+        } else {
+            emptyList()
         }
     }
 
+
     fun selectSubcategory(subcategory: SubCategoryModel) {
         _currentDishes.value = subcategory.dishes
-    }
-
-    private fun updateDishesForCategory() {
-        val category = _selectedCategory.value ?: return
-        _dishes.value = fakeDishes().filter { it.category == category.name }
+        _currentSubcategories.value = emptyList()
     }
 
 
-
-    private fun fakeDishes(): List<DishModel> {
-        return listOf(
-            DishModel("1", "Espresso", "Coffee", "Strong", 100, "https://i.imgur.com/mRG0qWE.jpeg"),
-            DishModel("2", "Latte", "Coffee", "Milk coffee", 150, "https://i.imgur.com/bXgKBot.jpeg"),
-            DishModel("3", "Cola", "Soda", "Cold drink", 90, "https://i.imgur.com/N5MStEK.png"),
-            DishModel("4", "Tea", "Tea", "Hot drink", 80, "https://i.imgur.com/KejyHye.png"),
-        )
-    }
-
-
+    val currentMenuItems: StateFlow<List<MenuItemModel>> = combine(
+        _currentSubcategories,
+        _currentDishes
+    ) { subcategories, dishes ->
+        if (subcategories.isNotEmpty()) {
+            subcategories.map { MenuItemModel.SubCategoryItem(it) }
+        } else if (dishes.isNotEmpty()) {
+            dishes.map { MenuItemModel.DishItem(it) }
+        } else {
+            emptyList()
+        }
+    }.stateIn(   // flow->stateFlow
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+        /*
+        scope — жизненный цикл, в котором будет работать этот поток (например, viewModelScope).
+        started — политика запуска (SharingStarted.WhileSubscribed — самый частый вариант).
+        initialValue — начальное значение, пока данные не пришли.
+         */
+    )
 
 }

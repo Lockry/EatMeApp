@@ -7,17 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.romeo.eatmeapp.data.repository.MainMenuRepositoryImpl
 import com.romeo.eatmeapp.databinding.FragmentMainMenuBinding
-import com.romeo.eatmeapp.databinding.FragmentMenuBinding
 import com.romeo.eatmeapp.ui.adapters.MainMenuAdapter
-import kotlinx.coroutines.launch
 
 class MainMenuFragment : Fragment() {
 

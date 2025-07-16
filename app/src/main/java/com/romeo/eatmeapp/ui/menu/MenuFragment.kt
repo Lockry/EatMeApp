@@ -10,11 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.romeo.eatmeapp.data.model.CategoryModel
+import com.romeo.eatmeapp.data.network.RetrofitClient
+import com.romeo.eatmeapp.data.repository.FakeMenuRepository
+import com.romeo.eatmeapp.data.repository.FakeRestaurantLoader
+import com.romeo.eatmeapp.data.repository.MenuDataSource
+import com.romeo.eatmeapp.data.repository.MenuRepository
 import com.romeo.eatmeapp.databinding.FragmentMenuBinding
 import com.romeo.eatmeapp.ui.adapters.CategoryAdapter
-import com.romeo.eatmeapp.ui.adapters.DishAdapter
-import com.romeo.eatmeapp.ui.adapters.SubcategoryAdapter
+import com.romeo.eatmeapp.ui.adapters.MenuAdapter
+import kotlinx.coroutines.launch
 
 class MenuFragment : Fragment() {
 
@@ -23,9 +27,20 @@ class MenuFragment : Fragment() {
 
     private lateinit var viewModel: MenuViewModel
 
+    private var isTestMode: Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[MenuViewModel::class.java]
+
+
+        val repository = if (isTestMode) {
+            FakeMenuRepository(requireContext())
+        } else {
+            MenuRepository(RetrofitClient.api)
+        }
+
+        val factory = MenuViewModelFactory(repository as MenuDataSource)
+        viewModel = ViewModelProvider(this, factory)[MenuViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -36,76 +51,79 @@ class MenuFragment : Fragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.topMenuBar.btnHomeMenu.setOnClickListener {}
-        binding.topMenuBar.btnInfoMenu.setOnClickListener {}
-        binding.topMenuBar.btnCallWaiterMenu.setOnClickListener {}
+        setupMenu()
+        setupCategory()
 
-        binding.rvCategoryMenu.layoutManager = LinearLayoutManager(
+        val restaurant = FakeRestaurantLoader.loadFakeRestaurant(requireContext())
+        viewModel.setMenu(restaurant.menu)
+
+
+        binding.topMenuBar.btnHomeMenu.setOnClickListener { /* TODO */ }
+        binding.topMenuBar.btnInfoMenu.setOnClickListener { /* TODO */ }
+        binding.topMenuBar.btnCallWaiterMenu.setOnClickListener { /* TODO */ }
+    }
+
+    private fun setupMenu() {
+        // адаптер (блюда + подкатегории) ---
+        val menuAdapter = MenuAdapter(
+            onDishClick = { dish ->
+                Toast.makeText(requireContext(), "Нажали на блюдо: ${dish.name}", Toast.LENGTH_SHORT).show()
+            },
+            onSubcategoryClick = { subcategory ->
+                viewModel.selectSubcategory(subcategory)
+            }
+        )
+
+        binding.rvMenu.layoutManager = GridLayoutManager(
             requireContext(),
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-//        binding.rvSubmenu.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        binding.rvMenu.adapter = subcategoryAdapter
+            2)
+        binding.rvMenu.adapter = menuAdapter
 
-        val categoryAdapter = CategoryAdapter {
-            viewModel.selectCategory(it)
-
-            Toast.makeText(requireContext(),
-                "Нажата категория: ${it.name}",
-                Toast.LENGTH_SHORT).show()
-        }
-        binding.rvCategoryMenu.adapter = categoryAdapter
-
-        val dishesAdapter = DishAdapter {
-            Toast.makeText(requireContext(),
-                "Нажата категория: ${it.name}",
-                Toast.LENGTH_SHORT).show()
-        }
-
-        val subcategoryAdapter = SubcategoryAdapter {
-            viewModel.selectSubcategory(it)
-        }
-
-
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.currentSubcategories.collect {
-                if (it.isNotEmpty()) {
-                  //  categoryAdapter.setData(it)
-                    dishesAdapter.setData(emptyList())
-                }
+        lifecycleScope.launch {
+            viewModel.currentMenuItems.collect { items ->
+                menuAdapter.setData(items)
             }
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.currentDishes.collect {
-                if (it.isNotEmpty()) {
-                    dishesAdapter.setData(it)
-                    subcategoryAdapter.setData(emptyList())
-                }
-            }
+
+    }
+
+    private fun setupCategory() {
+        // адаптер категорий
+        val categoryAdapter = CategoryAdapter { selectedCategory ->
+            viewModel.selectCategory(selectedCategory)
+            binding.topMenuBar.tVTypeMenu.text = selectedCategory.name.toString()
+        }
+            //binding.topMenuBar.btnCallWaiterMenu.setOnClickListener { /* TODO */ }
+        binding.rvCategoryMenu.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = categoryAdapter
         }
 
-        viewModel.setCategories(getFakeCategories())
-    }
 
-    fun getFakeCategories(): List<CategoryModel> {
-        return listOf(
-            CategoryModel("1", "Горячие блюда", "https://i.imgur.com/GjtTrlr.png", listOf()),
-            CategoryModel("2", "Закуски", "https://i.imgur.com/Vc6I4G5.png", listOf()),
-            CategoryModel("3", "Салаты", "https://i.imgur.com/kXnxzlI.jpeg", listOf()),
-            CategoryModel("4", "Пиццы", "https://i.imgur.com/jGuZnFJ.png", listOf()),
-            CategoryModel("5", "Напитки", "https://i.imgur.com/jyoifeP.png", listOf())
-        )
+        lifecycleScope.launch {
+            viewModel.categories.collect { categories ->
+                categoryAdapter.setData(categories)
+            }
+        }
     }
-
 
     companion object {
-        fun newInstance() = MenuFragment()
+        private const val ARG_IS_TEST_MODE = "arg_is_test_mode"
+
+        fun newInstance(isTestMode: Boolean): MenuFragment {
+            val fragment = MenuFragment()
+            val args = Bundle()
+            args.putBoolean(ARG_IS_TEST_MODE, isTestMode)
+            fragment.arguments = args
+            return fragment
+        }
     }
+
 
 }

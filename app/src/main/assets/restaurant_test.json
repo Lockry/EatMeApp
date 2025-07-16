@@ -1,0 +1,172 @@
+{
+  "locationId": "1448",
+  "locationName": "Romeo Cafe",
+  "address": "г. Минск, ул. Толбухина 2",
+  "hasGameZone": true,
+  "menu": [
+    {
+      "id": "1",
+      "name": "Горячие блюда",
+      "imageUri": "https://i.imgur.com/GjtTrlr.png",
+      "subcategories": [],
+      "dishes": [
+        {
+          "id": "101",
+          "name": "Борщ",
+          "desc": "Классический украинский суп",
+          "price": 250,
+          "imageUri": "https://i.imgur.com/1fYJ9Zp.jpeg",
+          "category": "Горячие блюда",
+          "quantity": 1
+        },
+        {
+          "id": "102",
+          "name": "Пюре с котлетой",
+          "desc": "Домашнее пюре с сочной котлетой",
+          "price": 300,
+          "imageUri": "https://i.imgur.com/Hhnmrca.jpeg",
+          "category": "Горячие блюда",
+          "quantity": 1
+        },
+        {
+          "id": "103",
+          "name": "Паста карбонара",
+          "desc": "Паста с беконом и сыром",
+          "price": 320,
+          "imageUri": "https://i.imgur.com/RvNWw2E.jpeg",
+          "category": "Горячие блюда",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Закуски",
+      "imageUri": "https://i.imgur.com/Vc6I4G5.png",
+      "subcategories": [],
+      "dishes": [
+        {
+        "id": "201",
+        "name": "Нагетсы",
+        "desc": "Хрустящие куриные нагетсы",
+        "price": 180,
+        "imageUri": "https://i.imgur.com/abc123.jpg",
+        "category": "Закуски",
+        "quantity": 1
+        },
+        {
+          "id": "202",
+          "name": "Картофель фри",
+          "desc": "Классический картофель по-деревенски",
+          "price": 150,
+          "imageUri": "https://i.imgur.com/def456.jpg",
+          "category": "Закуски",
+          "quantity": 1
+        },
+        {
+          "id": "203",
+          "name": "Овощи на гриле",
+          "desc": "Ассорти овощей с пряными травами",
+          "price": 200,
+          "imageUri": "https://i.imgur.com/ghi789.jpg",
+          "category": "Закуски",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Салаты",
+      "imageUri": "https://i.imgur.com/kXnxzlI.jpeg",
+      "subcategories": [],
+      "dishes": [
+        {
+          "id": "301",
+          "name": "Цезарь с курицей",
+          "desc": "Салат цезарь с запеченной курицей",
+          "price": 280,
+          "imageUri": "https://i.imgur.com/jkl012.jpg   ",
+          "category": "Салаты",
+          "quantity": 1
+        },
+        {
+          "id": "302",
+          "name": "Греческий",
+          "desc": "Традиционный греческий салат с оливками и фетой",
+          "price": 260,
+          "imageUri": "https://i.imgur.com/mno345.jpg   ",
+          "category": "Салаты",
+          "quantity": 1
+        },
+        {
+          "id": "303",
+          "name": "Оливье",
+          "desc": "Классический русский салат",
+          "price": 230,
+          "imageUri": "https://i.imgur.com/pqr678.jpg   ",
+          "category": "Салаты",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Пиццы",
+      "imageUri": "https://i.imgur.com/jGuZnFJ.png",
+      "subcategories": [],
+      "dishes": [
+        {
+          "id": "401",
+          "name": "Маргарита",
+          "desc": "Пицца с томатами, моцареллой и базиликом",
+          "price": 350,
+          "imageUri": "https://i.imgur.com/stu901.jpg   ",
+          "category": "Пиццы",
+          "quantity": 1
+        },
+        {
+          "id": "402",
+          "name": "Пепперони",
+          "desc": "Пицца с колбасой пепперони и сыром",
+          "price": 380,
+          "imageUri": "https://i.imgur.com/vxy234.jpg   ",
+          "category": "Пиццы",
+          "quantity": 1
+        },
+        {
+          "id": "403",
+          "name": "Четыре сыра",
+          "desc": "Пицца с ассорти из сыров",
+          "price": 400,
+          "imageUri": "https://i.imgur.com/wza567.jpg   ",
+          "category": "Пиццы",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Напитки",
+      "imageUri": "https://i.imgur.com/jyoifeP.png",
+      "subcategories": [
+        {
+          "id": "501",
+          "name": "Холодные",
+          "imageUri": "https://i.imgur.com/b3kue9W.jpeg",
+          "dishes": [
+            {
+              "id": "1",
+              "name": "Кока-кола",
+              "desc": "Газировка",
+              "price": 120,
+              "imageUri": "https://i.imgur.com/N5MStEK.png",
+              "category": "Холодные",
+              "quantity": 1
+            }
+          ]
+        }
+      ],
+      "dishes": []
+    }
+  ]
+}

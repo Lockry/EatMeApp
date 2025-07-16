@@ -4,6 +4,7 @@ import com.romeo.eatmeapp.data.model.MainMenuModel
 
 interface MainMenuRepository {
     suspend fun getMainMenu(): List<MainMenuModel>
+
 }
 
 class MainMenuRepositoryImpl : MainMenuRepository {

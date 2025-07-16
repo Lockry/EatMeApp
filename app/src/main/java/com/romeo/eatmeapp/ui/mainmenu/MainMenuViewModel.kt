@@ -17,7 +17,8 @@ class MainMenuViewModel(
     private val _mainMenuItem = MutableStateFlow<List<MainMenuModel>>(emptyList())
     val mainMenuItem: StateFlow<List<MainMenuModel>> = _mainMenuItem
 
-
+    private val _gameZone = MutableStateFlow(false)
+    val gameZone: StateFlow<Boolean> = _gameZone
 
     fun loadMenu() {
         viewModelScope.launch {

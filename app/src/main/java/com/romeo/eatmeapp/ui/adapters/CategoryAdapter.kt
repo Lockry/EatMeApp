@@ -3,7 +3,6 @@ package com.romeo.eatmeapp.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -11,38 +10,59 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.data.model.CategoryModel
+import com.romeo.eatmeapp.ui.adapters.CategoryAdapter.CategoryViewHolder
 import com.bumptech.glide.Glide
+import com.google.android.material.imageview.ShapeableImageView
 
 class CategoryAdapter(
     private val onClick: (CategoryModel) -> Unit
-) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+) : RecyclerView.Adapter<CategoryViewHolder>() {
 
     private var items = listOf<CategoryModel>()
+    private var selectedPosition = -1 // Для отслеживания выбранного элемента
 
-    class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.image_category)
-        val desc: TextView = itemView.findViewById(R.id.desc_text_category)
-        val holder: LinearLayout = itemView.findViewById(R.id.holder_category)
+    inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imageView: ShapeableImageView = itemView.findViewById(R.id.image_category)
+        val descTextView: TextView = itemView.findViewById(R.id.desc_text_category)
+        val containerLayout: LinearLayout = itemView.findViewById(R.id.holder_category)
+        val cardView: androidx.cardview.widget.CardView = itemView as androidx.cardview.widget.CardView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_category_holder, parent, false)
+
         return CategoryViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val item = items[position]
-        val imageUri = item.imageUri.toUri()
+
+        // --- 1. Загрузка изображения с Glide ---
+        val imageUri = item.imageUri?.toUri()
 
         Glide.with(holder.itemView.context)
             .load(imageUri)
-            // .placeholder(R.drawable.placeholder)  // пока грузится
-            // .error(R.drawable.error_image)        // если ошибка
+//            .placeholder(R.drawable.placeholder_image) // Необязательно, но рекомендуется
+//            .error(R.drawable.error_image) // То же самое
             .into(holder.imageView)
 
-        holder.desc.text = item.name
-        holder.holder.setOnClickListener { onClick(item) }
+        // --- 2. Текст ---
+        holder.descTextView.text = item.name
+
+        // --- 3. Выделение при выборе ---
+        val isSelected = position == selectedPosition
+        holder.cardView.isSelected = isSelected
+
+        // --- 4. Клик по элементу ---
+        holder.containerLayout.setOnClickListener {
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                selectedPosition = pos
+                notifyDataSetChanged()
+                onClick(items[pos])
+            }
+        }
     }
 
     override fun getItemCount(): Int = items.size
