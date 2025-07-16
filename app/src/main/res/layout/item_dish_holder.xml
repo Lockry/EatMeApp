@@ -6,11 +6,13 @@
     android:layout_height="354dp"
     android:layout_margin="8dp"
     card_view:cardCornerRadius="12dp"
+
     card_view:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#EAEEE0"
         android:orientation="vertical">
 
         <FrameLayout
@@ -57,7 +59,7 @@
             android:layout_height="73dp"
             android:layout_margin="12dp"
             android:backgroundTint="#016A6B"
-            android:text="ACTION"
+            android:text="@string/add_dish_to_cart"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             tools:ignore="HardcodedText" />

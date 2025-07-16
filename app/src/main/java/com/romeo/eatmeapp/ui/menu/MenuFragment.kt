@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,7 @@ import com.romeo.eatmeapp.data.repository.MenuRepository
 import com.romeo.eatmeapp.databinding.FragmentMenuBinding
 import com.romeo.eatmeapp.ui.adapters.CategoryAdapter
 import com.romeo.eatmeapp.ui.adapters.MenuAdapter
+import com.romeo.eatmeapp.ui.dialogs.AddToCartDialog
 import kotlinx.coroutines.launch
 
 class MenuFragment : Fragment() {
@@ -28,6 +30,8 @@ class MenuFragment : Fragment() {
     private lateinit var viewModel: MenuViewModel
 
     private var isTestMode: Boolean = true
+
+    private lateinit var addToCartDialog: AddToCartDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +56,6 @@ class MenuFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,17 +65,24 @@ class MenuFragment : Fragment() {
         val restaurant = FakeRestaurantLoader.loadFakeRestaurant(requireContext())
         viewModel.setMenu(restaurant.menu)
 
-
         binding.topMenuBar.btnHomeMenu.setOnClickListener { /* TODO */ }
         binding.topMenuBar.btnInfoMenu.setOnClickListener { /* TODO */ }
         binding.topMenuBar.btnCallWaiterMenu.setOnClickListener { /* TODO */ }
     }
 
     private fun setupMenu() {
-        // адаптер (блюда + подкатегории) ---
+        addToCartDialog = AddToCartDialog(requireContext())
         val menuAdapter = MenuAdapter(
             onDishClick = { dish ->
-                Toast.makeText(requireContext(), "Нажали на блюдо: ${dish.name}", Toast.LENGTH_SHORT).show()
+
+                Toast.makeText(
+                    requireContext(),
+                    "Нажали на блюдо: ${dish.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                addToCartDialog.show(dish)
+
             },
             onSubcategoryClick = { subcategory ->
                 viewModel.selectSubcategory(subcategory)
@@ -81,7 +91,8 @@ class MenuFragment : Fragment() {
 
         binding.rvMenu.layoutManager = GridLayoutManager(
             requireContext(),
-            2)
+            2
+        )
         binding.rvMenu.adapter = menuAdapter
 
         lifecycleScope.launch {
@@ -99,16 +110,16 @@ class MenuFragment : Fragment() {
             viewModel.selectCategory(selectedCategory)
             binding.topMenuBar.tVTypeMenu.text = selectedCategory.name.toString()
         }
-            //binding.topMenuBar.btnCallWaiterMenu.setOnClickListener { /* TODO */ }
+
         binding.rvCategoryMenu.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = categoryAdapter
         }
 
-
         lifecycleScope.launch {
             viewModel.categories.collect { categories ->
-                categoryAdapter.setData(categories)
+                categoryAdapter.setData(categories, autoSelectFirst = true)
             }
         }
     }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFF8"
     tools:context=".ui.menu.MenuFragment">
 
     <include
@@ -27,14 +28,16 @@
         android:layout_height="68dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="42dp"
-        android:background="@drawable/oval_button"
+        android:background="@drawable/oval_button_menu"
         android:textSize="20sp"
-        android:src="@drawable/ic_search_btn_top"
+        android:src="@drawable/ic_search_btn_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider_under_toolbar"
         tools:ignore="HardcodedText"
+        android:scaleType="fitCenter"
+        android:padding="18dp"
         />
 
     <androidx.recyclerview.widget.RecyclerView

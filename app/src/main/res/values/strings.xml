@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EatMeApp</string>
+    <string name="add_dish_to_cart">Добавить в заказ</string>
+    <string name="btn_call_waiter">Вызов официанта</string>
 </resources>

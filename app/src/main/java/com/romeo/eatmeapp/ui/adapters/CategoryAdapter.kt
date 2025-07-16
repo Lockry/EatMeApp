@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.romeo.eatmeapp.R
@@ -54,21 +55,36 @@ class CategoryAdapter(
         val isSelected = position == selectedPosition
         holder.cardView.isSelected = isSelected
 
+        holder.descTextView.setTextColor(
+            ContextCompat.getColor(holder.itemView.context,
+                if (isSelected) android.R.color.white else android.R.color.black
+            )
+        )
         // --- 4. Клик по элементу ---
         holder.containerLayout.setOnClickListener {
+
             val pos = holder.adapterPosition
             if (pos != RecyclerView.NO_POSITION) {
                 selectedPosition = pos
                 notifyDataSetChanged()
                 onClick(items[pos])
             }
+
         }
     }
 
     override fun getItemCount(): Int = items.size
 
-    fun setData(data: List<CategoryModel>) {
+    fun setData(data: List<CategoryModel>, autoSelectFirst: Boolean = true) {
         items = data
-        notifyDataSetChanged()
+
+        if (autoSelectFirst && data.isNotEmpty()) {
+            selectedPosition = 0
+            notifyDataSetChanged()
+            onClick(data[0]) // прокидываем первый айтем
+            
+        } else {
+            notifyDataSetChanged()
+        }
     }
 }
