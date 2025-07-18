@@ -1,148 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialog_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:background="@drawable/bg_oval">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_oval"
+    android:padding="16dp">
 
-    <!-- Картинка -->
+
     <ImageView
         android:id="@+id/image_dish"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="514dp"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1:0.6"
-        app:layout_constraintHeight_max="300dp"
-        app:layout_constraintHeight_min="180dp" />
+        app:layout_constraintTop_toTopOf="parent"
 
-    <!-- Название -->
+
+        />
+
+
     <TextView
         android:id="@+id/text_dish_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Название"
-        android:textStyle="bold"
-        android:textSize="20sp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/image_dish"
+        android:text="Название"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/image_dish" />
 
-    <!-- Описание -->
+
     <TextView
         android:id="@+id/text_dish_desc"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:text="Описание"
-        android:textSize="16sp"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/text_dish_name"
+        android:text="Описание"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/text_dish_name" />
 
-    <!-- Нижняя строка: Цена + − [1] + [Добавить] -->
-    <!-- Цена: -->
     <TextView
         android:id="@+id/text_dish_price"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="Цена:"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/text_dish_desc"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp" />
+        android:text="Цена:"
 
-    <!-- Значение цены -->
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent" />
+
+
     <TextView
         android:id="@+id/textView_dish_price"
 
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:text="120.0"
         android:gravity="center"
+        android:text="120.0"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_dish_price"
         app:layout_constraintStart_toEndOf="@id/text_dish_price"
         app:layout_constraintTop_toTopOf="@+id/text_dish_price" />
 
-    <!-- Валюта -->
     <TextView
         android:id="@+id/text_extra_info"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:text="BYN"
         android:gravity="center"
+        android:text="BYN"
         android:textSize="20sp"
 
         app:layout_constraintBottom_toBottomOf="@+id/textView_dish_price"
         app:layout_constraintStart_toEndOf="@id/textView_dish_price"
         app:layout_constraintTop_toTopOf="@+id/textView_dish_price" />
 
-    <!-- Кнопка "-" -->
     <ImageButton
         android:id="@+id/btn_minus"
         android:layout_width="68dp"
         android:layout_height="68dp"
         android:layout_marginStart="15dp"
-        android:background="@drawable/oval_button_menu"
+        android:background="@drawable/bg_oval_cart_btn"
         android:src="@drawable/ic_minus_btn"
         app:layout_constraintBottom_toBottomOf="@+id/text_extra_info"
         app:layout_constraintStart_toEndOf="@+id/text_extra_info"
         app:layout_constraintTop_toTopOf="@+id/text_extra_info" />
-        " />
 
-    <!-- Кол-во -->
+
     <TextView
         android:id="@+id/text_count"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:text="12"
-        android:textSize="36sp"
+        android:layout_marginStart="4dp"
         android:gravity="center"
-        app:layout_constraintTop_toTopOf="@id/btn_minus"
+        tools:text="12"
+        android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="@id/btn_minus"
         app:layout_constraintStart_toEndOf="@id/btn_minus"
-        android:layout_marginStart="4dp" />
+        app:layout_constraintTop_toTopOf="@id/btn_minus" />
 
-    <!-- Кнопка "+" -->
     <ImageButton
         android:id="@+id/btn_plus"
         android:layout_width="68dp"
         android:layout_height="68dp"
         android:layout_marginStart="4dp"
 
-        android:background="@drawable/oval_button_menu"
+        android:background="@drawable/bg_oval_cart_btn"
+        android:contentDescription="TODO"
         android:src="@drawable/ic_plus_btn"
         app:layout_constraintBottom_toBottomOf="@+id/text_count"
         app:layout_constraintStart_toEndOf="@id/text_count"
         app:layout_constraintTop_toTopOf="@+id/text_count" />
 
-    <!-- Кнопка "Добавить в корзину" -->
     <Button
         android:id="@+id/btn_add_to_cart"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
-        android:textSize="20sp"
-        android:text="Добавить в корзину"
         android:backgroundTint="#016A6B"
         android:drawableStart="@drawable/ic_cart_btn_dark"
         android:drawablePadding="8dp"
+        android:text="@string/add_dish_add_cart"
+        android:textSize="20sp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/btn_plus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_plus"
         app:layout_constraintTop_toTopOf="@+id/btn_plus" />
-
-    <!-- Связующий элемент -->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

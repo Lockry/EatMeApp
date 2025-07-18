@@ -7,5 +7,6 @@ data class RestaurantModel(
     @SerializedName("locationName") val locationName: String,
     @SerializedName("address") val address: String,
     @SerializedName("hasGameZone") val hasGameZone: Boolean,
-    @SerializedName("menu") val menu: List<CategoryModel>
+    @SerializedName("menu") val menu: List<CategoryModel>,
+    @SerializedName("splashScreens") val splashScreens: List<SplashModel>
 )

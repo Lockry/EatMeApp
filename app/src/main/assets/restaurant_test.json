@@ -2,7 +2,24 @@
   "locationId": "1448",
   "locationName": "Romeo Cafe",
   "address": "г. Минск, ул. Толбухина 2",
-  "hasGameZone": true,
+  "hasGameZone": false,
+  "splashScreens": [
+    {
+      "id" : "1",
+      "name" : "Ads#1",
+      "imageUri": "https://1place.su/ru/blog/wp-content/uploads/2020/05/mEywmjuMGR8.jpg"
+    },
+    {
+      "id" : "2",
+      "name" : "Ads#2",
+      "imageUri": "https://static.tildacdn.com/tild3037-6162-4432-a530-646666636531/image.png"
+    },
+    {
+      "id" : "3",
+      "name" : "Ads#3",
+      "imageUri": "https://1place.su/ru/blog/wp-content/uploads/2020/05/obedi.jpg"
+    }
+  ],
   "menu": [
     {
       "id": "1",

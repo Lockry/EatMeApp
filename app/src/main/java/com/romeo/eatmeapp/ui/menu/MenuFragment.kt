@@ -4,22 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.romeo.eatmeapp.MainActivity
+import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.data.network.RetrofitClient
-import com.romeo.eatmeapp.data.repository.FakeMenuRepository
-import com.romeo.eatmeapp.data.repository.FakeRestaurantLoader
-import com.romeo.eatmeapp.data.repository.MenuDataSource
-import com.romeo.eatmeapp.data.repository.MenuRepository
+import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
+import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
 import com.romeo.eatmeapp.databinding.FragmentMenuBinding
 import com.romeo.eatmeapp.ui.adapters.CategoryAdapter
 import com.romeo.eatmeapp.ui.adapters.MenuAdapter
-import com.romeo.eatmeapp.ui.dialogs.AddToCartDialog
 import kotlinx.coroutines.launch
 
 class MenuFragment : Fragment() {
@@ -29,22 +28,23 @@ class MenuFragment : Fragment() {
 
     private lateinit var viewModel: MenuViewModel
 
-    private var isTestMode: Boolean = true
+    private val isTestMode: Boolean
+        get() = (activity as? MainActivity)?.isTestMode ?: false
 
-    private lateinit var addToCartDialog: AddToCartDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
         val repository = if (isTestMode) {
-            FakeMenuRepository(requireContext())
+            FakeRestaurantRepository(requireContext())
         } else {
-            MenuRepository(RetrofitClient.api)
+            RealRestaurantRepository(RetrofitClient.api)
         }
 
-        val factory = MenuViewModelFactory(repository as MenuDataSource)
+        val factory = MenuViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[MenuViewModel::class.java]
+        viewModel.loadMenu()
     }
 
     override fun onCreateView(
@@ -62,26 +62,25 @@ class MenuFragment : Fragment() {
         setupMenu()
         setupCategory()
 
-        val restaurant = FakeRestaurantLoader.loadFakeRestaurant(requireContext())
-        viewModel.setMenu(restaurant.menu)
+        binding.topMenuBar.btnHomeMenu.setOnClickListener {
+            findNavController().navigate(R.id.action_menuFragment_to_mainMenuFragment)
+        }
 
-        binding.topMenuBar.btnHomeMenu.setOnClickListener { /* TODO */ }
         binding.topMenuBar.btnInfoMenu.setOnClickListener { /* TODO */ }
-        binding.topMenuBar.btnCallWaiterMenu.setOnClickListener { /* TODO */ }
+
+        binding.topMenuBar.btnCallWaiterMenu.setOnClickListener {
+            findNavController().navigate(R.id.action_menuFragment_to_cartFragment)
+        }
+
     }
 
     private fun setupMenu() {
-        addToCartDialog = AddToCartDialog(requireContext())
+
         val menuAdapter = MenuAdapter(
             onDishClick = { dish ->
 
-                Toast.makeText(
-                    requireContext(),
-                    "Нажали на блюдо: ${dish.name}",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                addToCartDialog.show(dish)
+                val dialog = AddToCartBottomFragment.newInstance(dish)
+                dialog.show((context as FragmentActivity).supportFragmentManager, "AddToCartBottomSheet")
 
             },
             onSubcategoryClick = { subcategory ->
@@ -123,6 +122,13 @@ class MenuFragment : Fragment() {
             }
         }
     }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 
     companion object {
         private const val ARG_IS_TEST_MODE = "arg_is_test_mode"

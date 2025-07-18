@@ -6,55 +6,76 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.romeo.eatmeapp.data.repository.MainMenuRepositoryImpl
+import androidx.navigation.fragment.findNavController
+import com.romeo.eatmeapp.MainActivity
+import com.romeo.eatmeapp.R
+import com.romeo.eatmeapp.data.network.RetrofitClient
+import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
+import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
 import com.romeo.eatmeapp.databinding.FragmentMainMenuBinding
-import com.romeo.eatmeapp.ui.adapters.MainMenuAdapter
 
 class MainMenuFragment : Fragment() {
 
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
 
-    //фабрика
-    private val viewModel: MainMenuViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val repository = MainMenuRepositoryImpl()
-                return MainMenuViewModel(repository) as T
-            }
-        }
-    }
+    private lateinit var viewModel: MainMenuViewModel
 
-    private lateinit var adapter: MainMenuAdapter
+    private val isTestMode: Boolean
+        get() = (activity as? MainActivity)?.isTestMode ?: false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val repository = if (isTestMode) {
+            FakeRestaurantRepository(requireContext())
+        } else {
+            RealRestaurantRepository(RetrofitClient.api)
+        }
+
+        val factory = MainMenuViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, factory)[MainMenuViewModel::class.java]
+        viewModel.loadMainMenu()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        adapter = MainMenuAdapter { mainMenuItem ->
-            Toast.makeText(requireContext(), "Нажали: ${mainMenuItem.name}", Toast.LENGTH_SHORT).show()
+
+
+
+
+        binding.btnMenu.setOnClickListener {
+            findNavController().navigate(R.id.action_mainMenuFragment_to_menuFragment)
         }
 
-        binding.rVBtnMenu.adapter = adapter
-        binding.rVBtnMenu.layoutManager = CustomLayoutManager(requireContext())
-
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.mainMenuItem.collect { list ->
-                adapter.updateData(list)
-            }
+        binding.btnGames.setOnClickListener {
+            Toast.makeText(requireContext(),
+                "Игоры будут потом",
+                Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.loadMenu()
+        binding.btnPayment.setOnClickListener {
+            Toast.makeText(requireContext(),
+                "Оплата будет потом",
+                Toast.LENGTH_SHORT).show()
+        }
+
+
+        binding.btnCartMainMenu.setOnClickListener {
+            findNavController().navigate(R.id.action_mainMenuFragment_to_cartFragment2)
+        }
+
     }
 
     override fun onDestroyView() {

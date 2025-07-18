@@ -65,7 +65,7 @@ class MenuAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    // --- ViewHolder for Dishes ---
+    //ViewHolder for Dishes
     inner class DishViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val image: ImageView = itemView.findViewById(R.id.imageView_dish)
         private val desc: TextView = itemView.findViewById(R.id.desc_text_dish)
@@ -85,7 +85,7 @@ class MenuAdapter(
         }
     }
 
-    // --- ViewHolder for Subcategories ---
+    //ViewHolder for Subcategories
     inner class SubcategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val image: ImageView = itemView.findViewById(R.id.imageView_subcategory)
         private val desc: TextView = itemView.findViewById(R.id.desc_text_subcategory)

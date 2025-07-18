@@ -30,7 +30,7 @@
         android:layout_marginStart="6dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Breakfast"
+        android:text="Title Tool Bar"
         android:textSize="27sp"
         android:textStyle="bold"
         app:autoSizeMaxTextSize="27sp"
@@ -70,7 +70,7 @@
     <Button
         android:id="@+id/btn_call_waiter_menu"
         android:layout_width="216dp"
-        android:layout_height="wrap_content"
+        android:layout_height="73dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="2"

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ButtonBottomStyle" parent="Widget.Material3.Button">
-        <item name="cornerRadius">12dp</item>
-        <item name="backgroundTint">#016A6B</item>
+    <style name="ButtonBottomStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/bg_rounded_button_main_menu</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:minHeight">60dp</item>
-    </style>
+    </style>app:backgroundTint="#016A6B"
 
     <style name="RoundedImageViewStyle" parent="">
         <item name="cornerFamily">rounded</item>
@@ -22,5 +21,10 @@
         <item name="android:minHeight">60dp</item>
     </style>
 
+    <style name="ButtomStyleMainMenu" parent="Widget.Material3.Button">>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:minHeight">60dp</item>
+    </style>
 
 </resources>

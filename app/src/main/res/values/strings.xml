@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">EatMeApp</string>
-    <string name="add_dish_to_cart">Добавить в заказ</string>
-    <string name="btn_call_waiter">Вызов официанта</string>
+    <string name="add_dish_to_cart">Подробнее</string>
+    <string name="add_dish_add_cart">Добавить в корзину</string>
+    <string name="btn_call_waiter">Позвать официанта</string>
+    <string name="text_extra_cart">Внешний вид и подача блюд могут отличаться от представленных на фотографиях.</string>
+    <string name="text_total_price_cart">Итого:</string>
+    <string name="btn_send_order">Заказать!</string>
+    <string name="cart_is_empty">Корзина пуста! Может сделаем заказ? :)</string>
+    <string name="btn_how_it_works">Как это работает?</string>
+    <string name="btn_cart_main_menu">Корзина</string>
+    <string name="btn_menu_main_menu">Меню</string>
+    <string name="btn_games_main_menu">Игры</string>
+    <string name="btn_payment_main_menu">Оплата</string>
+
 </resources>
