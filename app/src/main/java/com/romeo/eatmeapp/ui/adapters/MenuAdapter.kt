@@ -10,15 +10,17 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.data.model.DishModel
 import com.romeo.eatmeapp.data.model.MenuItemModel
 import com.romeo.eatmeapp.data.model.SubCategoryModel
+import com.romeo.eatmeapp.ui.animation.BaseAnimAdapter
 
 class MenuAdapter(
     private val onDishClick: (DishModel) -> Unit,
     private val onSubcategoryClick: (SubCategoryModel) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) :  BaseAnimAdapter<MenuItemModel>() {
 
     private var items: List<MenuItemModel> = emptyList()
 
@@ -30,6 +32,7 @@ class MenuAdapter(
     fun setData(newItems: List<MenuItemModel>) {
         items = newItems
         notifyDataSetChanged()
+        resetAnimation()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -55,7 +58,7 @@ class MenuAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindView(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = items[position]) {
             is MenuItemModel.DishItem -> (holder as DishViewHolder).bind(item.dish)
             is MenuItemModel.SubCategoryItem -> (holder as SubcategoryViewHolder).bind(item.subCategory)
@@ -64,7 +67,6 @@ class MenuAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    //ViewHolder for Dishes
     inner class DishViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val image: ImageView = itemView.findViewById(R.id.imageView_dish)
         private val desc: TextView = itemView.findViewById(R.id.desc_text_dish)
@@ -78,13 +80,13 @@ class MenuAdapter(
             val imageUri = dish.imageUri.toUri()
             Glide.with(itemView.context)
                 .load(imageUri)
+                .transition(DrawableTransitionOptions.withCrossFade(300))
                 .into(image)
 
             button.setOnClickListener { onDishClick(dish) }
         }
     }
 
-    //ViewHolder for Subcategories
     inner class SubcategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val image: ImageView = itemView.findViewById(R.id.imageView_subcategory)
         private val desc: TextView = itemView.findViewById(R.id.desc_text_subcategory)
@@ -95,6 +97,7 @@ class MenuAdapter(
             val imageUri = subCategory.imageUri.toUri()
             Glide.with(itemView.context)
                 .load(imageUri)
+                .transition(DrawableTransitionOptions.withCrossFade(300))
                 .into(image)
 
             itemView.setOnClickListener { onSubcategoryClick(subCategory) }

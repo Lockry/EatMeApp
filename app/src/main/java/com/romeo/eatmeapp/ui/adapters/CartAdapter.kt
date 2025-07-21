@@ -11,13 +11,17 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.romeo.eatmeapp.R
+import com.romeo.eatmeapp.data.model.CategoryModel
 import com.romeo.eatmeapp.data.model.DishModel
+import com.romeo.eatmeapp.ui.adapters.CategoryAdapter.CategoryViewHolder
+import com.romeo.eatmeapp.ui.animation.BaseAnimAdapter
 import com.romeo.eatmeapp.ui.cart.CartFragmentViewModel
 
 class CartAdapter(
     private val listener: CartFragmentViewModel
-) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+) : BaseAnimAdapter<CategoryModel>() {
 
     private var cartItems: List<DishModel> = emptyList()
 
@@ -38,16 +42,15 @@ class CartAdapter(
         return CartViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+    override fun onBindView(holder: RecyclerView.ViewHolder, position: Int) {
         val dish = cartItems[position]
         val imageUri = dish.imageUri.toUri()
 
         Log.d("CartAdapter", "Отрисовываю элемент: ${dish.name}")
         Glide.with(holder.itemView.context)
             .load(imageUri)
-            // .placeholder(R.drawable.placeholder)  // пока грузится
-            // .error(R.drawable.error_image)        // если ошибка
-            .into(holder.imageDish)                      // куда загружаем
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .into((holder as CartViewHolder).imageDish)
 
         holder.dishName.text = dish.name
         holder.dishPrice.text = "${dish.price * dish.quantity} BYN"
@@ -71,10 +74,13 @@ class CartAdapter(
         Log.d("CartAdapter", "submitList called with size = ${newItems.size}")
         cartItems = newItems
         notifyDataSetChanged()
+        resetAnimation()
     }
 
     override fun getItemCount(): Int {
         Log.d("CartAdapter", "getItemCount() = ${cartItems.size}")
         return cartItems.size
     }
+
+    override fun getItemViewType(position: Int): Int = 0
 }
