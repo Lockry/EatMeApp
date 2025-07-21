@@ -1,31 +1,22 @@
 package com.romeo.eatmeapp.ui.nointernet
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.romeo.eatmeapp.R
+import androidx.fragment.app.Fragment
+import com.romeo.eatmeapp.databinding.FragmentNoInternetBinding
 
 class NoInternetFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = NoInternetFragment()
-    }
-
-    private val viewModel: NoInternetViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
+    private var _binding: FragmentNoInternetBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_no_internet, container, false)
+        _binding = FragmentNoInternetBinding.inflate(inflater, container, false)
+        return binding.root
     }
 }
