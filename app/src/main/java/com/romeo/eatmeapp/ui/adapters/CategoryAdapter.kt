@@ -1,5 +1,6 @@
 package com.romeo.eatmeapp.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,6 +69,7 @@ class CategoryAdapter(
 
     override fun getItemCount(): Int = items.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<CategoryModel>, autoSelectFirst: Boolean = true) {
         items = data
 

@@ -1,5 +1,6 @@
 package com.romeo.eatmeapp.ui.adapters
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -65,6 +66,7 @@ class CartAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newItems: List<DishModel>) {
         Log.d("CartAdapter", "submitList called with size = ${newItems.size}")
         cartItems = newItems
@@ -74,11 +76,5 @@ class CartAdapter(
     override fun getItemCount(): Int {
         Log.d("CartAdapter", "getItemCount() = ${cartItems.size}")
         return cartItems.size
-    }
-
-    interface CartActionListener {
-        fun onIncreaseQuantity(position: Int)
-        fun onDecreaseQuantity(position: Int)
-        fun onRemoveItem(position: Int)
     }
 }

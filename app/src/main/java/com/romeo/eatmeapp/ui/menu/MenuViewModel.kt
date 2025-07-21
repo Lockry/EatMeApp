@@ -1,5 +1,6 @@
 package com.romeo.eatmeapp.ui.menu
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romeo.eatmeapp.data.model.CategoryModel
@@ -57,6 +58,7 @@ class MenuViewModel(
                 }
             } catch (e: Exception) {
                 // TODO: Обработка ошибок
+                Log.e("MenuLoadModule", "Error: $e")
                 _categories.value = emptyList()
                 _selectedCategory.value = null
                 _currentSubcategories.value = emptyList()

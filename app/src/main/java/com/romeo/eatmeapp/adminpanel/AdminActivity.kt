@@ -1,5 +1,6 @@
 package com.romeo.eatmeapp.adminpanel
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -32,12 +33,13 @@ class AdminActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ImplicitSamInstance")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val isMusicEnabled = sharedPref.getBoolean("music_enabled", true)
         val isTestMode = sharedPref.getBoolean("is_test_mode", false)
 
@@ -45,7 +47,7 @@ class AdminActivity : AppCompatActivity() {
         binding.switchRepository.isChecked = isTestMode
 
         Intent(this, MusicService::class.java).also { intent ->
-            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
+            bindService(intent, serviceConnection, BIND_AUTO_CREATE)
         }
 
         binding.switchMusic.setOnCheckedChangeListener { _, isChecked ->

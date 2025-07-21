@@ -1,7 +1,6 @@
 package com.romeo.eatmeapp.ui.menu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +13,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.romeo.eatmeapp.data.model.DishModel
 import com.romeo.eatmeapp.databinding.FragmentDishDetailBottomBinding
 import com.romeo.eatmeapp.ui.cart.CartFragmentViewModel
-import kotlin.math.log
 
 
+@Suppress("DEPRECATION")
 class AddToCartBottomFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentDishDetailBottomBinding? = null

@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private val timerSpashScreen = 10000L // 5 сек
     private var inactivityJob: Job? = null
 
-    private val prefs by lazy { getSharedPreferences("app_prefs", Context.MODE_PRIVATE) }
+    private val prefs by lazy { getSharedPreferences("app_prefs", MODE_PRIVATE) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -125,16 +125,4 @@ class MenuFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    companion object {
-        private const val ARG_IS_TEST_MODE = "arg_is_test_mode"
-
-        fun newInstance(isTestMode: Boolean): MenuFragment {
-            val fragment = MenuFragment()
-            val args = Bundle()
-            args.putBoolean(ARG_IS_TEST_MODE, isTestMode)
-            fragment.arguments = args
-            return fragment
-        }
-    }
 }
