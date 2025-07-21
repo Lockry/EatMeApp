@@ -15,7 +15,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.data.model.CategoryModel
 import com.romeo.eatmeapp.data.model.DishModel
-import com.romeo.eatmeapp.ui.adapters.CategoryAdapter.CategoryViewHolder
 import com.romeo.eatmeapp.ui.animation.BaseAnimAdapter
 import com.romeo.eatmeapp.ui.cart.CartFragmentViewModel
 
@@ -53,7 +52,7 @@ class CartAdapter(
             .into((holder as CartViewHolder).imageDish)
 
         holder.dishName.text = dish.name
-        holder.dishPrice.text = "${dish.price * dish.quantity} BYN"
+        holder.dishPrice.text = "${dish.price * dish.quantity}"
         holder.quantityText.text = dish.quantity.toString()
 
         holder.plusButton.setOnClickListener {

@@ -75,7 +75,7 @@ class MenuAdapter(
 
         fun bind(dish: DishModel) {
             desc.text = dish.name
-            price.text = "${dish.price} ₽"
+            price.text = "${dish.price}"
 
             val imageUri = dish.imageUri.toUri()
             Glide.with(itemView.context)
