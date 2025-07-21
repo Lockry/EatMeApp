@@ -3,7 +3,6 @@ package com.romeo.eatmeapp.data.repository
 import android.content.Context
 import com.google.gson.Gson
 import com.romeo.eatmeapp.data.model.RestaurantModel
-import com.romeo.eatmeapp.data.network.RestaurantApi
 
 class FakeRestaurantRepository(private val context: Context) : RestaurantDataSource {
 

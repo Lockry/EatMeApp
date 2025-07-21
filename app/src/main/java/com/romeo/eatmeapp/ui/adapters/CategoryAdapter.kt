@@ -38,20 +38,16 @@ class CategoryAdapter(
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val item = items[position]
 
-        // --- 1. Загрузка изображения с Glide ---
-        val imageUri = item.imageUri?.toUri()
+        val imageUri = item.imageUri.toUri()
+        val isSelected = position == selectedPosition
 
         Glide.with(holder.itemView.context)
             .load(imageUri)
-//            .placeholder(R.drawable.placeholder_image) // Необязательно, но рекомендуется
-//            .error(R.drawable.error_image) // То же самое
+//            .placeholder(R.drawable.placeholder_image) // пока грузим
+//            .error(R.drawable.error_image) // Ошибка еди не загружено
             .into(holder.imageView)
 
-        // --- 2. Текст ---
         holder.descTextView.text = item.name
-
-        // --- 3. Выделение при выборе ---
-        val isSelected = position == selectedPosition
         holder.cardView.isSelected = isSelected
 
         holder.descTextView.setTextColor(
@@ -59,16 +55,14 @@ class CategoryAdapter(
                 if (isSelected) android.R.color.white else android.R.color.black
             )
         )
-        // --- 4. Клик по элементу ---
-        holder.containerLayout.setOnClickListener {
 
+        holder.containerLayout.setOnClickListener {
             val pos = holder.adapterPosition
             if (pos != RecyclerView.NO_POSITION) {
                 selectedPosition = pos
                 notifyDataSetChanged()
                 onClick(items[pos])
             }
-
         }
     }
 

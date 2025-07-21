@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
@@ -8,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.cart.CartFragment">
 
-    <!-- Toolbar -->
     <include
         android:id="@+id/top_menu_bar"
         layout="@layout/view_top_menu_bar"
@@ -16,7 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Divider -->
     <View
         android:id="@+id/divider_under_toolbar"
         android:layout_width="0dp"
@@ -26,56 +23,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_menu_bar" />
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_cart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:background="#828E5A"
         app:layout_constraintBottom_toTopOf="@id/text_dish_cart_total"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_under_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/divider_under_toolbar"
+        tools:background="#828E5A" />
 
     <TextView
         android:id="@+id/textView_empty_msg"
         android:layout_width="500dp"
         android:layout_height="600dp"
         android:text="I im empty"
-        android:visibility="gone"
         android:textSize="50sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Total Price Text -->
     <TextView
         android:id="@+id/text_dish_cart_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-
         android:text="@string/text_total_price_cart"
         android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_create_order"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_cart"
-        app:layout_constraintBottom_toBottomOf="@id/btn_create_order" />
+        app:layout_constraintTop_toBottomOf="@id/rv_cart" />
 
-    <!-- Price Value -->
     <TextView
         android:id="@+id/textView_dish_cart_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:gravity="center"
-        android:textSize="34sp"
         android:text="120.0"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="@id/text_dish_cart_total"
         app:layout_constraintStart_toEndOf="@id/text_dish_cart_total"
         app:layout_constraintTop_toTopOf="@id/text_dish_cart_total" />
 
-    <!-- Currency -->
     <TextView
         android:id="@+id/text_currency_money"
         android:layout_width="wrap_content"
@@ -88,33 +80,31 @@
         app:layout_constraintStart_toEndOf="@id/textView_dish_cart_price"
         app:layout_constraintTop_toTopOf="@id/textView_dish_cart_price" />
 
-    <!-- Extra Info Text -->
     <TextView
         android:id="@+id/textView_extra_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
+        android:autoSizeMaxTextSize="18sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeStepGranularity="1sp"
+        android:autoSizeTextType="uniform"
+        android:ellipsize="end"
         android:gravity="start"
         android:maxLines="2"
-        android:ellipsize="end"
-        android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="10sp"
-        android:autoSizeMaxTextSize="18sp"
-        android:autoSizeStepGranularity="1sp"
         android:text="@string/text_extra_cart"
         app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toStartOf="@id/btn_create_order"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_create_order"
         app:layout_constraintStart_toStartOf="@id/text_dish_cart_total"
         app:layout_constraintTop_toBottomOf="@id/text_dish_cart_total" />
 
-    <!-- Create Order Button -->
     <Button
         android:id="@+id/btn_create_order"
         android:layout_width="0dp"
         android:layout_height="73dp"
-        android:layout_marginEnd="12dp"
         android:layout_marginStart="6dp"
+        android:layout_marginEnd="12dp"
         android:backgroundTint="#305E1D"
         android:gravity="center"
         android:text="@string/btn_send_order"

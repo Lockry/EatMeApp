@@ -51,7 +51,6 @@ class MenuAdapter(
                 val view = inflater.inflate(R.layout.item_subcategory_holder, parent, false)
                 SubcategoryViewHolder(view)
             }
-
             else -> throw IllegalArgumentException("Unknown viewType $viewType")
         }
     }

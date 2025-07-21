@@ -5,8 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.romeo.eatmeapp.data.model.DishModel
-import kotlin.compareTo
-import kotlin.times
 
 class CartFragmentViewModel : ViewModel() {
 
@@ -44,7 +42,7 @@ class CartFragmentViewModel : ViewModel() {
             internalCartList.add(item)
         }
         _dishesCart.value = internalCartList.toList()
-        Log.d("DishBottomAdtoCart", "${_dishesCart.value}")
+        Log.d("DishBottomAddToCart", "${_dishesCart.value}")
     }
 
     fun onIncreaseQuantity(dishId: String) {

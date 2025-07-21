@@ -29,40 +29,36 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="42dp"
         android:background="@drawable/oval_button_menu"
-        android:textSize="20sp"
+        android:padding="18dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_search_btn_dark"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider_under_toolbar"
-        tools:ignore="HardcodedText"
-        android:scaleType="fitCenter"
-        android:padding="18dp"
-        />
+        tools:ignore="HardcodedText" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_category_menu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        tools:background="#C36D6D"
-        tools:layout_height="160dp"
-
         android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_find_menu"
-        app:layout_constraintTop_toBottomOf="@id/divider_under_toolbar"/>
+        app:layout_constraintTop_toBottomOf="@id/divider_under_toolbar"
+        tools:background="#C36D6D"
+        tools:layout_height="160dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_menu"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
-        tools:background="#828E5A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_category_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        tools:background="#828E5A" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

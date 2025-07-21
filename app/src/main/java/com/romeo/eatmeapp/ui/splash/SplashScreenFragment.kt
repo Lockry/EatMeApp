@@ -59,8 +59,6 @@ class SplashScreenFragment : Fragment() {
 
         val splashImage = binding.imageSplash
 
-
-
         lifecycleScope.launch {
             viewModel.ads.collect { splashList ->
                 if (splashList.isEmpty()) return@collect

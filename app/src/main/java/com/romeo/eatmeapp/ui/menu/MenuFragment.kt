@@ -78,10 +78,9 @@ class MenuFragment : Fragment() {
 
         val menuAdapter = MenuAdapter(
             onDishClick = { dish ->
-
-                val dialog = AddToCartBottomFragment.newInstance(dish)
-                dialog.show((context as FragmentActivity).supportFragmentManager, "AddToCartBottomSheet")
-
+                AddToCartBottomFragment.newInstance(dish)
+                    .show((context as FragmentActivity)
+                        .supportFragmentManager, "AddToCartBottomSheet")
             },
             onSubcategoryClick = { subcategory ->
                 viewModel.selectSubcategory(subcategory)
@@ -99,8 +98,6 @@ class MenuFragment : Fragment() {
                 menuAdapter.setData(items)
             }
         }
-
-
     }
 
     private fun setupCategory() {
@@ -129,7 +126,6 @@ class MenuFragment : Fragment() {
         _binding = null
     }
 
-
     companion object {
         private const val ARG_IS_TEST_MODE = "arg_is_test_mode"
 
@@ -141,6 +137,4 @@ class MenuFragment : Fragment() {
             return fragment
         }
     }
-
-
 }

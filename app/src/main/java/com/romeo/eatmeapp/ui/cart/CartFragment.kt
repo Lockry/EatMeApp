@@ -94,7 +94,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     }
 
     fun clearedCartUI() {
-
         binding.textViewEmptyMsg.visibility = View.VISIBLE
         binding.textViewEmptyMsg.text = getString(R.string.cart_is_empty)
     }
@@ -104,9 +103,4 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         super.onDestroyView()
         _binding = null
     }
-
-    companion object {
-        fun newInstance() = CartFragment()
-    }
-
 }

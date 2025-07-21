@@ -45,8 +45,4 @@ class SubcategoryAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun setData(data: List<SubCategoryModel>) {
-        items = data
-        notifyDataSetChanged()
-    }
 }

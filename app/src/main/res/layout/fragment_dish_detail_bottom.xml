@@ -15,11 +15,7 @@
         android:layout_height="514dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-
-        />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_dish_name"
@@ -32,7 +28,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image_dish" />
-
 
     <TextView
         android:id="@+id/text_dish_desc"
@@ -52,16 +47,12 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="Цена:"
-
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <TextView
         android:id="@+id/textView_dish_price"
-
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
@@ -78,12 +69,12 @@
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:gravity="center"
-        android:text="BYN"
+        android:text="₽"
         android:textSize="20sp"
-
         app:layout_constraintBottom_toBottomOf="@+id/textView_dish_price"
         app:layout_constraintStart_toEndOf="@id/textView_dish_price"
-        app:layout_constraintTop_toTopOf="@+id/textView_dish_price" />
+        app:layout_constraintTop_toTopOf="@+id/textView_dish_price"
+        tools:ignore="HardcodedText" />
 
     <ImageButton
         android:id="@+id/btn_minus"
@@ -96,27 +87,24 @@
         app:layout_constraintStart_toEndOf="@+id/text_extra_info"
         app:layout_constraintTop_toTopOf="@+id/text_extra_info" />
 
-
     <TextView
         android:id="@+id/text_count"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:gravity="center"
-        tools:text="12"
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="@id/btn_minus"
         app:layout_constraintStart_toEndOf="@id/btn_minus"
-        app:layout_constraintTop_toTopOf="@id/btn_minus" />
+        app:layout_constraintTop_toTopOf="@id/btn_minus"
+        tools:text="12" />
 
     <ImageButton
         android:id="@+id/btn_plus"
         android:layout_width="68dp"
         android:layout_height="68dp"
         android:layout_marginStart="4dp"
-
         android:background="@drawable/bg_oval_cart_btn"
-        android:contentDescription="TODO"
         android:src="@drawable/ic_plus_btn"
         app:layout_constraintBottom_toBottomOf="@+id/text_count"
         app:layout_constraintStart_toEndOf="@id/text_count"
@@ -131,8 +119,8 @@
         android:drawableStart="@drawable/ic_cart_btn_dark"
         android:drawablePadding="8dp"
         android:text="@string/add_dish_add_cart"
-        android:textSize="20sp"
         android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_plus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_plus"

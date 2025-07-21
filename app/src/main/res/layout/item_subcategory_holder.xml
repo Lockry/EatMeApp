@@ -15,7 +15,6 @@
         android:background="#EAEEE0"
         android:orientation="vertical">
 
-
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageView_subcategory"
             android:layout_width="match_parent"
@@ -23,7 +22,6 @@
             android:scaleType="centerCrop"
             card_view:shapeAppearanceOverlay="@style/RoundedImageViewStyle"
             tools:background="#A5D5B7" />
-
 
         <TextView
             android:id="@+id/desc_text_subcategory"

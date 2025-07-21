@@ -70,7 +70,6 @@
             android:textColor="@android:color/white" />
     </FrameLayout>
 
-
     <FrameLayout
         android:id="@+id/frame_payment"
         android:layout_width="0dp"
@@ -101,7 +100,6 @@
             android:text="@string/btn_payment_main_menu"
             android:textColor="@android:color/white" />
     </FrameLayout>
-
 
     <LinearLayout
         android:id="@+id/bottomPanel"

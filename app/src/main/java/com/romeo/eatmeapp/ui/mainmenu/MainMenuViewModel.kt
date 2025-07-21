@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.romeo.eatmeapp.data.repository.RestaurantDataSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainMenuViewModel(
@@ -12,13 +13,13 @@ class MainMenuViewModel(
 ) : ViewModel() {
 
     private val _gameZone = MutableStateFlow(false)
-    val gameZone: StateFlow<Boolean> = _gameZone
+    val gameZone: StateFlow<Boolean> = _gameZone.asStateFlow()
 
     fun loadMainMenu() {
         viewModelScope.launch {
             val restaurantData = repository.getRestaurantData()
-            val gameZone = restaurantData.hasGameZone
-            _gameZone.value = gameZone
+            val hasGameZone = restaurantData.hasGameZone
+            _gameZone.value = hasGameZone
         }
     }
 }

@@ -2,7 +2,6 @@ package com.romeo.eatmeapp.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romeo.eatmeapp.data.model.CategoryModel
 import com.romeo.eatmeapp.data.model.SplashModel
 import com.romeo.eatmeapp.data.repository.RestaurantDataSource
 import kotlinx.coroutines.flow.MutableStateFlow

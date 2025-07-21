@@ -9,7 +9,7 @@ class RealRestaurantRepository(
 
     override suspend fun getRestaurantData(): RestaurantModel {
         return api.getRestaurantData().firstOrNull()
-            ?: throw IllegalStateException("Нет данных ресторана")
+            ?: throw IllegalStateException("No data from API :(")
     }
 
 }

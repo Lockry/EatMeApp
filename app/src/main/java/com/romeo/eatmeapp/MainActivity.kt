@@ -1,18 +1,17 @@
 package com.romeo.eatmeapp
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.romeo.eatmeapp.databinding.ActivityMainBinding
-import com.romeo.eatmeapp.ui.mainmenu.MainMenuViewModel
+import com.romeo.eatmeapp.services.MusicService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,10 +20,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    var isTestMode = false
+    var isTestMode = true
+    var musicEnabled = false
 
     private val timerSpashScreen = 10000L // 5 сек
     private var inactivityJob: Job? = null
+
+    private val prefs by lazy { getSharedPreferences("app_prefs", Context.MODE_PRIVATE) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,20 @@ class MainActivity : AppCompatActivity() {
 
         resetInactivityTimer()
 
+        isTestMode = prefs.getBoolean("is_test_mode", true)
+        musicEnabled = prefs.getBoolean("music_enabled", true)
 
+
+
+        if (musicEnabled) {
+            Intent(this, MusicService::class.java).also {
+                startService(it)
+            }
+        } else  {
+            Intent(this, MusicService::class.java).also {
+                stopService(it)
+            }
+        }
     }
 
 
@@ -49,9 +65,14 @@ class MainActivity : AppCompatActivity() {
         inactivityJob?.cancel() // Отменяем предыдущую задачу
 
         inactivityJob = lifecycleScope.launch {
-            delay( timerSpashScreen)
-            // Переход на SplashFragment
-            findNavController(R.id.nav_host_fragment).navigate(R.id.action_go_toSplashScreen)
+            delay(timerSpashScreen)
+
+            val navController = findNavController(R.id.nav_host_fragment)
+            val currentDestination = navController.currentDestination?.id
+
+            if (currentDestination != R.id.splashFragment) {
+                navController.navigate(R.id.action_go_toSplashScreen)
+            }
         }
     }
 
@@ -74,5 +95,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         resetInactivityTimer()
     }
+
 
 }
