@@ -24,8 +24,6 @@ class MenuViewModel(
     private val _categories = MutableStateFlow<List<CategoryModel>>(emptyList())
     val categories: StateFlow<List<CategoryModel>> = _categories.asStateFlow()
 
-    private val _selectedCategory = MutableStateFlow<CategoryModel?>(null)
-
     private val _currentSubcategories = MutableStateFlow<List<SubCategoryModel>>(emptyList())
 
     private val _currentDishes = MutableStateFlow<List<DishModel>>(emptyList())
@@ -52,7 +50,6 @@ class MenuViewModel(
                 val restaurantData = repository.getRestaurantData()
                 val menu = restaurantData.menu
                 _categories.value = menu
-                _selectedCategory.value = menu.firstOrNull()
                 menu.firstOrNull()?.let {
                     selectCategory(it)
                 }
@@ -60,7 +57,6 @@ class MenuViewModel(
                 // TODO: Обработка ошибок
                 Log.e("MenuLoadModule", "Error: $e")
                 _categories.value = emptyList()
-                _selectedCategory.value = null
                 _currentSubcategories.value = emptyList()
                 _currentDishes.value = emptyList()
             }
@@ -68,7 +64,6 @@ class MenuViewModel(
     }
 
     fun selectCategory(category: CategoryModel) {
-        _selectedCategory.value = category
         if (category.subcategories.isNotEmpty()) {
             _currentSubcategories.value = category.subcategories
             _currentDishes.value = emptyList()

@@ -12,5 +12,8 @@
     <string name="btn_menu_main_menu">Меню</string>
     <string name="btn_games_main_menu">Игры</string>
     <string name="btn_payment_main_menu">Оплата</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nointernet">Упс!\nНет интернета!\nЖдем подключения…</string>
 
 </resources>

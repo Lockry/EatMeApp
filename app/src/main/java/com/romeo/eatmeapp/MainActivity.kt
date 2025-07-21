@@ -1,6 +1,5 @@
 package com.romeo.eatmeapp
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
@@ -8,10 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.romeo.eatmeapp.databinding.ActivityMainBinding
 import com.romeo.eatmeapp.services.MusicService
+import com.romeo.eatmeapp.ui.nointernet.NetworkStatus
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     private val prefs by lazy { getSharedPreferences("app_prefs", MODE_PRIVATE) }
 
+    private lateinit var viewModel: MainActivityViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.nav_host_fragment)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -43,10 +48,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         resetInactivityTimer()
+        observeNetworkChanges()
 
         isTestMode = prefs.getBoolean("is_test_mode", true)
         musicEnabled = prefs.getBoolean("music_enabled", true)
-
 
 
         if (musicEnabled) {
@@ -60,6 +65,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun observeNetworkChanges() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        lifecycleScope.launch {
+            viewModel.networkStatus.collect { status ->
+                val currentDestination = navController.currentDestination?.id
+
+                when (status) {
+                    NetworkStatus.Available -> {
+                        if (currentDestination == R.id.noInternetFragment) {
+                            navController.popBackStack()
+                        }
+                    }
+
+                    NetworkStatus.Lost -> {
+                        if (currentDestination != R.id.noInternetFragment) {
+                            navController.navigate(R.id.noInternetFragment)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private fun resetInactivityTimer() {
         inactivityJob?.cancel() // Отменяем предыдущую задачу
@@ -70,8 +97,10 @@ class MainActivity : AppCompatActivity() {
             val navController = findNavController(R.id.nav_host_fragment)
             val currentDestination = navController.currentDestination?.id
 
-            if (currentDestination != R.id.splashFragment) {
-                navController.navigate(R.id.action_go_toSplashScreen)
+            if (currentDestination != R.id.noInternetFragment) {
+                if (currentDestination != R.id.splashFragment) {
+                    navController.navigate(R.id.action_go_toSplashScreen)
+                }
             }
         }
     }
