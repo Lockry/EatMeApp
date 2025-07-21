@@ -32,7 +32,7 @@
           "name": "Борщ",
           "desc": "Классический украинский суп",
           "price": 250,
-          "imageUri": "https://i.imgur.com/1fYJ9Zp.jpeg",
+          "imageUri": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyfb9UpUDSBZMMoSuY5iU2Gn1lXTZ7nhNo4g&s",
           "category": "Горячие блюда",
           "quantity": 1
         },
@@ -41,7 +41,7 @@
           "name": "Пюре с котлетой",
           "desc": "Домашнее пюре с сочной котлетой",
           "price": 300,
-          "imageUri": "https://i.imgur.com/Hhnmrca.jpeg",
+          "imageUri": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTstcEzF5Ax3fWmntkg2WchnWGMSrwaSHFhAg&s",
           "category": "Горячие блюда",
           "quantity": 1
         },
@@ -50,7 +50,7 @@
           "name": "Паста карбонара",
           "desc": "Паста с беконом и сыром",
           "price": 320,
-          "imageUri": "https://i.imgur.com/RvNWw2E.jpeg",
+          "imageUri": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmPE-rv44OMayQn8-R6xttU21Q6deBV1ncTA&s",
           "category": "Горячие блюда",
           "quantity": 1
         }
@@ -67,7 +67,7 @@
         "name": "Нагетсы",
         "desc": "Хрустящие куриные нагетсы",
         "price": 180,
-        "imageUri": "https://i.imgur.com/abc123.jpg",
+        "imageUri": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFNIErb_8BlmJn8XeiIPadkqdihB5TY4fjyQ&s",
         "category": "Закуски",
         "quantity": 1
         },
@@ -76,7 +76,7 @@
           "name": "Картофель фри",
           "desc": "Классический картофель по-деревенски",
           "price": 150,
-          "imageUri": "https://i.imgur.com/def456.jpg",
+          "imageUri": "https://cdn.lifehacker.ru/wp-content/uploads/2023/01/shutterstock_658210576_1674561493-320x480.jpg",
           "category": "Закуски",
           "quantity": 1
         },
@@ -85,7 +85,7 @@
           "name": "Овощи на гриле",
           "desc": "Ассорти овощей с пряными травами",
           "price": 200,
-          "imageUri": "https://i.imgur.com/ghi789.jpg",
+          "imageUri": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwBRKjBBB4FBHwVjBrRAOTJWUoQb7qS4ioGQ&s",
           "category": "Закуски",
           "quantity": 1
         }
@@ -102,7 +102,7 @@
           "name": "Цезарь с курицей",
           "desc": "Салат цезарь с запеченной курицей",
           "price": 280,
-          "imageUri": "https://i.imgur.com/jkl012.jpg   ",
+          "imageUri": "https://img.iamcook.ru/2024/upl/recipes/zen/u-b407678da66810be60c6a8e246a76ea1.JPG",
           "category": "Салаты",
           "quantity": 1
         },
@@ -111,7 +111,7 @@
           "name": "Греческий",
           "desc": "Традиционный греческий салат с оливками и фетой",
           "price": 260,
-          "imageUri": "https://i.imgur.com/mno345.jpg   ",
+          "imageUri": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlVYyLEq9cjqXBrUh08wa_FzGAAEIyeSl6Ag&s",
           "category": "Салаты",
           "quantity": 1
         },
@@ -120,7 +120,7 @@
           "name": "Оливье",
           "desc": "Классический русский салат",
           "price": 230,
-          "imageUri": "https://i.imgur.com/pqr678.jpg   ",
+          "imageUri": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMky7SmOUevM5k6KTqHVp9gnxCpzuJzXM4Eg&s",
           "category": "Салаты",
           "quantity": 1
         }
@@ -137,7 +137,7 @@
           "name": "Маргарита",
           "desc": "Пицца с томатами, моцареллой и базиликом",
           "price": 350,
-          "imageUri": "https://i.imgur.com/stu901.jpg   ",
+          "imageUri": "https://art-lunch.ru/wp-content/uploads/2015/04/Pizza_Margherita_01.jpg",
           "category": "Пиццы",
           "quantity": 1
         },
@@ -146,7 +146,7 @@
           "name": "Пепперони",
           "desc": "Пицца с колбасой пепперони и сыром",
           "price": 380,
-          "imageUri": "https://i.imgur.com/vxy234.jpg   ",
+          "imageUri": "https://images.gastronom.ru/hm6qPf0nZBEGFcLRG3PwM-94j23zgIZkzRlDgv7WVaY/pr:recipe-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzL2RkMDc1ODA1LTliNzItNDgxOS1hMzgwLTQ0YzlhMWM5NTA0My5qcGc.webp",
           "category": "Пиццы",
           "quantity": 1
         },
@@ -155,7 +155,7 @@
           "name": "Четыре сыра",
           "desc": "Пицца с ассорти из сыров",
           "price": 400,
-          "imageUri": "https://i.imgur.com/wza567.jpg   ",
+          "imageUri": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4fYk-6PhyfcMt8zqE0uQqtXqiyeQCKkKjKA&s",
           "category": "Пиццы",
           "quantity": 1
         }
@@ -169,7 +169,7 @@
         {
           "id": "501",
           "name": "Холодные",
-          "imageUri": "https://i.imgur.com/b3kue9W.jpeg",
+          "imageUri": "https://menu2go.ru/images/food/1005/1005_920_20240820152554_6916.jpg",
           "dishes": [
             {
               "id": "1",
