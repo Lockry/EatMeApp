@@ -15,12 +15,13 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.data.model.CategoryModel
 import com.romeo.eatmeapp.data.model.DishModel
-import com.romeo.eatmeapp.ui.animation.BaseAnimAdapter
+import com.romeo.eatmeapp.ui.adapters.diffcallback.BaseAnimatedDiffAdapter
+import com.romeo.eatmeapp.ui.adapters.diffcallback.GenericDiffCallback
 import com.romeo.eatmeapp.ui.cart.CartFragmentViewModel
 
 class CartAdapter(
     private val listener: CartFragmentViewModel
-) : BaseAnimAdapter<CategoryModel>() {
+) : BaseAnimatedDiffAdapter<CategoryModel, CartAdapter.CartViewHolder>(GenericDiffCallback()) {
 
     private var cartItems: List<DishModel> = emptyList()
 
@@ -41,7 +42,7 @@ class CartAdapter(
         return CartViewHolder(view)
     }
 
-    override fun onBindView(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindView(holder: CartViewHolder, position: Int) {
         val dish = cartItems[position]
         val imageUri = dish.imageUri.toUri()
 
@@ -49,7 +50,7 @@ class CartAdapter(
         Glide.with(holder.itemView.context)
             .load(imageUri)
             .transition(DrawableTransitionOptions.withCrossFade(300))
-            .into((holder as CartViewHolder).imageDish)
+            .into(holder.imageDish)
 
         holder.dishName.text = dish.name
         holder.dishPrice.text = "${dish.price * dish.quantity}"
@@ -68,12 +69,9 @@ class CartAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newItems: List<DishModel>) {
         Log.d("CartAdapter", "submitList called with size = ${newItems.size}")
         cartItems = newItems
-        notifyDataSetChanged()
-        resetAnimation()
     }
 
     override fun getItemCount(): Int {

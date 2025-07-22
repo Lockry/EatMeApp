@@ -95,7 +95,7 @@ class MenuFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.currentMenuItems.collect { items ->
-                menuAdapter.setData(items)
+                menuAdapter.items = items
             }
         }
     }
@@ -115,11 +115,11 @@ class MenuFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.categories.collect { categories ->
-                categoryAdapter.setData(categories, autoSelectFirst = true)
+                categoryAdapter.items = categories
+                categoryAdapter.selectFirstIfEmpty()
             }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

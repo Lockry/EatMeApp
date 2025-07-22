@@ -15,24 +15,17 @@ import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.data.model.DishModel
 import com.romeo.eatmeapp.data.model.MenuItemModel
 import com.romeo.eatmeapp.data.model.SubCategoryModel
-import com.romeo.eatmeapp.ui.animation.BaseAnimAdapter
+import com.romeo.eatmeapp.ui.adapters.diffcallback.BaseAnimatedDiffAdapter
+import com.romeo.eatmeapp.ui.adapters.diffcallback.MenuItemModelDiffCallback
 
 class MenuAdapter(
     private val onDishClick: (DishModel) -> Unit,
     private val onSubcategoryClick: (SubCategoryModel) -> Unit
-) :  BaseAnimAdapter<MenuItemModel>() {
-
-    private var items: List<MenuItemModel> = emptyList()
+) : BaseAnimatedDiffAdapter<MenuItemModel, RecyclerView.ViewHolder>(MenuItemModelDiffCallback()) {
 
     companion object {
         private const val VIEW_TYPE_DISH = 1
         private const val VIEW_TYPE_SUBCATEGORY = 2
-    }
-
-    fun setData(newItems: List<MenuItemModel>) {
-        items = newItems
-        notifyDataSetChanged()
-        resetAnimation()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -45,27 +38,19 @@ class MenuAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            VIEW_TYPE_DISH -> {
-                val view = inflater.inflate(R.layout.item_dish_holder, parent, false)
-                DishViewHolder(view)
-            }
-
-            VIEW_TYPE_SUBCATEGORY -> {
-                val view = inflater.inflate(R.layout.item_subcategory_holder, parent, false)
-                SubcategoryViewHolder(view)
-            }
+            VIEW_TYPE_DISH -> DishViewHolder(inflater.inflate(R.layout.item_dish_holder, parent, false))
+            VIEW_TYPE_SUBCATEGORY -> SubcategoryViewHolder(inflater.inflate(R.layout.item_subcategory_holder, parent, false))
             else -> throw IllegalArgumentException("Unknown viewType $viewType")
         }
     }
 
     override fun onBindView(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = items[position]) {
+        val item = items[position]
+        when (item) {
             is MenuItemModel.DishItem -> (holder as DishViewHolder).bind(item.dish)
             is MenuItemModel.SubCategoryItem -> (holder as SubcategoryViewHolder).bind(item.subCategory)
         }
     }
-
-    override fun getItemCount(): Int = items.size
 
     inner class DishViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val image: ImageView = itemView.findViewById(R.id.imageView_dish)
@@ -75,7 +60,7 @@ class MenuAdapter(
 
         fun bind(dish: DishModel) {
             desc.text = dish.name
-            price.text = "${dish.price}"
+            price.text = "${dish.price} ₽"
 
             val imageUri = dish.imageUri.toUri()
             Glide.with(itemView.context)
