@@ -13,5 +13,4 @@ class FakeRestaurantRepository(private val context: Context) : RestaurantDataSou
 
         return Gson().fromJson(jsonString, RestaurantModel::class.java)
     }
-
 }

@@ -84,10 +84,12 @@ class MainMenuFragment : Fragment() {
         binding.btnCartMainMenu.setOnClickListener {
             findNavController().navigate(R.id.action_mainMenuFragment_to_cartFragment2)
         }
+
         binding.btnCallWaiterMainMenu.setOnClickListener {
-            Intent(requireContext(), AdminActivity::class.java).also { intent ->
-                startActivity(intent)
+            val intent = Intent(requireContext(), AdminActivity::class.java).apply {
+                putExtra(AdminActivity.EXTRA_IS_TEST_MODE, isTestMode)
             }
+            startActivity(intent)
         }
     }
 

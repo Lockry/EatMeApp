@@ -16,6 +16,7 @@ import com.romeo.eatmeapp.ui.nointernet.NetworkStatus
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         resetInactivityTimer()
         observeNetworkChanges()
+
 
         isTestMode = prefs.getBoolean("is_test_mode", true)
         musicEnabled = prefs.getBoolean("music_enabled", true)

@@ -8,9 +8,3 @@ data class CategoryModel(
     val dishes: List<DishModel> = emptyList()
 ): HasId<String>
 
-data class SubCategoryModel(
-    override val id: String = "",
-    val name: String,
-    val imageUri: String = "",
-    val dishes: List<DishModel>
-): HasId<String>
