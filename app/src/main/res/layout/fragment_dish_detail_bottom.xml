@@ -23,46 +23,46 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        tools:text="Название"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_dish" />
+        app:layout_constraintTop_toBottomOf="@id/image_dish"
+        tools:text="Название" />
 
     <TextView
         android:id="@+id/text_dish_desc"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginTop="4dp"
-        tools:text="Описание"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_dish_name" />
-
-    <TextView
-        android:id="@+id/text_dish_price"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        tools:text="Цена:"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/text_dish_name"
+        tools:text="Описание" />
 
     <TextView
         android:id="@+id/textView_dish_price"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Цена:"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/dish_price"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="4dp"
         android:gravity="center"
-        tools:text="120.0"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_dish_price"
-        app:layout_constraintStart_toEndOf="@id/text_dish_price"
-        app:layout_constraintTop_toTopOf="@+id/text_dish_price" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView_dish_price"
+        app:layout_constraintStart_toEndOf="@id/textView_dish_price"
+        app:layout_constraintTop_toTopOf="@+id/textView_dish_price"
+        tools:text="120.0" />
 
     <TextView
         android:id="@+id/text_extra_info"
@@ -72,9 +72,10 @@
         android:gravity="center"
         android:text="₽"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_dish_price"
-        app:layout_constraintStart_toEndOf="@id/textView_dish_price"
-        app:layout_constraintTop_toTopOf="@+id/textView_dish_price"
+        app:layout_constraintBottom_toBottomOf="@+id/dish_price"
+        app:layout_constraintStart_toEndOf="@+id/dish_price"
+        app:layout_constraintTop_toTopOf="@+id/dish_price"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="HardcodedText" />
 
     <ImageButton

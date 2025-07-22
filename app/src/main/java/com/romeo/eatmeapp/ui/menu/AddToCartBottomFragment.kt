@@ -73,7 +73,7 @@ class AddToCartBottomFragment : BottomSheetDialogFragment() {
 
         binding.textDishName.text = dish.name
         binding.textDishDesc.text = dish.desc
-        binding.textViewDishPrice.text = dish.price.toString()
+        binding.dishPrice.text = dish.price.toString()
 
         quantity = 1
         updateQuantityUI()
