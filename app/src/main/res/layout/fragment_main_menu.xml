@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.menu.MenuFragment">
 
+
     <FrameLayout
         android:id="@+id/frame_menu"
         android:layout_width="0dp"
@@ -19,6 +20,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_admin_panel"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="#E60909"
+            tools:text="AdminPanel" />
 
         <ImageView
             android:id="@+id/image_menu"

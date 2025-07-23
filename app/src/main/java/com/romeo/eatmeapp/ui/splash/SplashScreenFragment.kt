@@ -1,5 +1,6 @@
 package com.romeo.eatmeapp.ui.splash
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
+@SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
 
     private var _binding: FragmentSplashScreenBinding? = null
@@ -43,7 +45,6 @@ class SplashScreenFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, factory)[SplashScreenViewModel::class.java]
         viewModel.loadSplashScreens()
-
     }
 
     override fun onCreateView(

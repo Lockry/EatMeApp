@@ -13,13 +13,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.romeo.eatmeapp.databinding.ActivityMainBinding
 import com.romeo.eatmeapp.services.MusicService
-import com.romeo.eatmeapp.ui.nointernet.NetworkStatus
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.romeo.eatmeapp.data.network.RetrofitClient
 import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
 import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
+import com.romeo.eatmeapp.ui.nointernet.NetworkStatus
 
 class MainActivity : AppCompatActivity() {
 

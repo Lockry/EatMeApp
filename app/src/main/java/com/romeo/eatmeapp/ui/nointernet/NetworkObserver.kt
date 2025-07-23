@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+@Suppress("DEPRECATION")
 class NetworkObserver(private val context: Context) {
 
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
 
     fun getCurrentStatus(): NetworkStatus {
         val activeNetwork = connectivityManager.activeNetworkInfo

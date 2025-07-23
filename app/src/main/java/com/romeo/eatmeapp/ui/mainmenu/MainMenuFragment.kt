@@ -26,6 +26,10 @@ class MainMenuFragment : Fragment() {
     private val isTestMode: Boolean
         get() = (activity as? MainActivity)?.isTestMode ?: false
 
+
+    private var tapCount = 0
+    private val requiredTaps = 4
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,29 +58,26 @@ class MainMenuFragment : Fragment() {
             findNavController().navigate(R.id.action_mainMenuFragment_to_menuFragment)
         }
 
-        binding.btnGames.setOnClickListener {
-            Toast.makeText(requireContext(),
-                "Игоры будут потом",
-                Toast.LENGTH_SHORT).show()
-        }
-
-        binding.btnPayment.setOnClickListener {
-            Toast.makeText(requireContext(),
-                "Оплата будет потом",
-                Toast.LENGTH_SHORT).show()
-        }
-
+        binding.btnGames.setOnClickListener {}
+        binding.btnPayment.setOnClickListener {}
+        binding.btnCallWaiterMainMenu.setOnClickListener {}
 
         binding.btnCartMainMenu.setOnClickListener {
             findNavController().navigate(R.id.action_mainMenuFragment_to_cartFragment2)
         }
 
-        binding.btnCallWaiterMainMenu.setOnClickListener {
-            val intent = Intent(requireContext(), AdminActivity::class.java).apply {
-                putExtra(AdminActivity.EXTRA_IS_TEST_MODE, isTestMode)
+        binding.btnAdminPanel.setOnClickListener {
+            tapCount++
+            if (tapCount >= requiredTaps) {
+                val intent = Intent(requireContext(), AdminActivity::class.java).apply {
+                    putExtra(AdminActivity.EXTRA_IS_TEST_MODE, isTestMode)
+                }
+                startActivity(intent)
+
+                tapCount = 0
             }
-            startActivity(intent)
         }
+
     }
 
     override fun onDestroyView() {
