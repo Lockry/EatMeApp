@@ -19,10 +19,6 @@ object RestaurantDataObject {
         _restaurantModel.value = data
     }
 
-    fun hasGameZone(): Boolean {
-        return _restaurantModel.value?.hasGameZone == true
-    }
-
     suspend fun forceReload(repository: RestaurantDataSource) {
         this.repository = repository
         val data = repository.getRestaurantData()
