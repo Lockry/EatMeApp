@@ -1,5 +1,6 @@
 package com.romeo.eatmeapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
@@ -16,22 +17,22 @@ import com.romeo.eatmeapp.ui.nointernet.NetworkStatus
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import androidx.core.content.edit
+import com.romeo.eatmeapp.data.network.RetrofitClient
+import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
+import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    var isTestMode = true
-    var musicEnabled = false
-
-    private val timerSpashScreen = 10000L // 5 сек
-    private var inactivityJob: Job? = null
+    private lateinit var viewModel: MainActivityViewModel
 
     private val prefs by lazy { getSharedPreferences("app_prefs", MODE_PRIVATE) }
 
-    private lateinit var viewModel: MainActivityViewModel
+    private var inactivityJob: Job? = null
+    private val timerSplashScreen = 10_000L // 10 сек
 
+    var isTestMode = true
+    var musicEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,35 +41,56 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setOnApplyWindow()
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.nav_host_fragment)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        loadPrefs()
 
-        resetInactivityTimer()
+        setUpMusicService()
+
         observeNetworkChanges()
 
+        reloadRestaurantData()
 
-        isTestMode = prefs.getBoolean("is_test_mode", true)
-        musicEnabled = prefs.getBoolean("music_enabled", true)
+        resetInactivityTimer()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        loadPrefs()
+        reloadRestaurantData()
+    }
 
+    override fun onStart() {
+        super.onStart()
+        resetInactivityTimer()
         if (musicEnabled) {
-            Intent(this, MusicService::class.java).also {
-                startService(it)
-            }
-        } else  {
-            Intent(this, MusicService::class.java).also {
-                stopService(it)
-            }
+            startService(Intent(this, MusicService::class.java))
         }
+    }
+
+    @SuppressLint("ImplicitSamInstance")
+    override fun onStop() {
+        inactivityJob?.cancel()
+        super.onStop()
+        if (musicEnabled && MusicService.isRunning) {
+            stopService(Intent(this, MusicService::class.java))
+        }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        resetInactivityTimer()
+        return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        resetInactivityTimer()
     }
 
     private fun observeNetworkChanges() {
         val navController = findNavController(R.id.nav_host_fragment)
+
         lifecycleScope.launch {
             viewModel.networkStatus.collect { status ->
                 val currentDestination = navController.currentDestination?.id
@@ -91,41 +113,57 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetInactivityTimer() {
-        inactivityJob?.cancel() // Отменяем предыдущую задачу
-
+        inactivityJob?.cancel()
         inactivityJob = lifecycleScope.launch {
-            delay(timerSpashScreen)
-
-            val navController = findNavController(R.id.nav_host_fragment)
-            val currentDestination = navController.currentDestination?.id
-
-            if (currentDestination != R.id.noInternetFragment) {
-                if (currentDestination != R.id.splashFragment) {
-                    navController.navigate(R.id.action_go_toSplashScreen)
-                }
+            delay(timerSplashScreen)
+            if (shouldNavigateToSplash()) {
+                findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.action_go_toSplashScreen)
             }
         }
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        resetInactivityTimer()
-        return super.dispatchTouchEvent(ev)
-    }
-
-    override fun onUserInteraction() {
-        super.onUserInteraction()
-        resetInactivityTimer()
-    }
-
-    override fun onStop() {
-        inactivityJob?.cancel()
-        super.onStop()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        resetInactivityTimer()
+    private fun shouldNavigateToSplash(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        val currentDestination = navController.currentDestination?.id
+        return currentDestination != R.id.splashFragment &&
+                currentDestination != R.id.noInternetFragment
     }
 
 
+    private fun setUpMusicService() {
+        val intent = Intent(this, MusicService::class.java)
+        if (musicEnabled) {
+            startService(intent)
+        } else {
+            stopService(intent)
+        }
+    }
+
+
+    private fun reloadRestaurantData() {
+        lifecycleScope.launch {
+            val repository = getRepository()
+            RestaurantDataObject.forceReload(repository)
+        }
+    }
+
+    private fun getRepository() = if (isTestMode) {
+        FakeRestaurantRepository(this)
+    } else {
+        RealRestaurantRepository(RetrofitClient.api)
+    }
+
+    private fun loadPrefs() {
+        isTestMode = prefs.getBoolean("is_test_mode", true)
+        musicEnabled = prefs.getBoolean("music_enabled", true)
+    }
+
+    private fun setOnApplyWindow() {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.nav_host_fragment)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
 }

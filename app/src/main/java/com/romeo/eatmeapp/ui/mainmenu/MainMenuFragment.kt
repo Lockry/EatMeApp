@@ -8,16 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.romeo.eatmeapp.MainActivity
 import com.romeo.eatmeapp.R
+import com.romeo.eatmeapp.RestaurantDataObject
 import com.romeo.eatmeapp.adminpanel.AdminActivity
-import com.romeo.eatmeapp.data.network.RetrofitClient
-import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
-import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
 import com.romeo.eatmeapp.databinding.FragmentMainMenuBinding
 import kotlinx.coroutines.launch
 
@@ -26,23 +23,12 @@ class MainMenuFragment : Fragment() {
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: MainMenuViewModel
-
     private val isTestMode: Boolean
         get() = (activity as? MainActivity)?.isTestMode ?: false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val repository = if (isTestMode) {
-            FakeRestaurantRepository(requireContext())
-        } else {
-            RealRestaurantRepository(RetrofitClient.api)
-        }
-
-        val factory = MainMenuViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory)[MainMenuViewModel::class.java]
-        viewModel.loadMainMenu()
     }
 
     override fun onCreateView(
@@ -55,10 +41,10 @@ class MainMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
-        viewLifecycleOwner.lifecycleScope.launch { // TODO придумать как оптимизировать UI при gameZone = true
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.gameZone.collect { hasGameZone ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                RestaurantDataObject.restaurantModel.collect { data ->
+                    val hasGameZone = data?.hasGameZone == true
                     binding.frameGames.visibility = if (hasGameZone) View.VISIBLE else View.GONE
                 }
             }

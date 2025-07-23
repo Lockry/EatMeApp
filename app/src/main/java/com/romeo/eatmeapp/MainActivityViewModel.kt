@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 //AndroidViewModel специально предназначен для ViewModel, которым нужен Application.
-class MainActivityViewModel(application: Application) :  AndroidViewModel(application) {
+class MainActivityViewModel(
+    application: Application,) :  AndroidViewModel(application) {
 
     private val networkObserver = NetworkObserver(application.applicationContext)
 

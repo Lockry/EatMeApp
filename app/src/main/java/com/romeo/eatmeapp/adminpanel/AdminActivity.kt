@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.romeo.eatmeapp.MainActivity
+import com.romeo.eatmeapp.RestaurantDataObject
 import com.romeo.eatmeapp.data.network.RetrofitClient
 import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
 import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
@@ -57,9 +58,7 @@ class AdminActivity : AppCompatActivity() {
             RealRestaurantRepository(RetrofitClient.api)
         }
 
-        val factory = AdminActivityViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory)[AdminActivityViewModel::class.java]
-        viewModel.loadRestaurant()
+        viewModel = ViewModelProvider(this)[AdminActivityViewModel::class.java]
 
         binding = ActivityAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -86,7 +85,7 @@ class AdminActivity : AppCompatActivity() {
                 musicService.resumeMusic()
             } else {
                 musicService.pauseMusic()
-                if (!musicService.isMusicPlaying()) 
+                if (!musicService.isMusicPlaying())
                     stopService(Intent(this, MusicService::class.java))
             }
         }
@@ -100,6 +99,15 @@ class AdminActivity : AppCompatActivity() {
             Toast.makeText(this,
                 "Репозиторий: ${if (isChecked) "Тестовый" else "Боевой"}",
                 Toast.LENGTH_SHORT).show()
+
+            val newRepository = if (isChecked) {
+                FakeRestaurantRepository(this)
+            } else {
+                RealRestaurantRepository(RetrofitClient.api)
+            }
+            lifecycleScope.launch {
+                RestaurantDataObject.forceReload(newRepository)
+            }
         }
 
         binding.btnBack.setOnClickListener {
@@ -122,6 +130,10 @@ class AdminActivity : AppCompatActivity() {
             }
         }
 
+        lifecycleScope.launch {
+            RestaurantDataObject.init(repository)
+        }
+
     }
 
     private fun updateSwitchState() {
@@ -139,4 +151,6 @@ class AdminActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_IS_TEST_MODE = "is_test_mode"
     }
+
+
 }
