@@ -32,7 +32,7 @@ class AdminActivityViewModel : ViewModel() {
     val hasGameZone: StateFlow<Boolean> = restaurant
         .map { it?.hasGameZone ?: false }
         .stateIn(viewModelScope, SharingStarted.Eagerly, false)
-     
+
  */
 }
 
