@@ -62,4 +62,45 @@
         tools:background="#828E5A" />
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_cart_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/rv_menu"
+        app:layout_constraintEnd_toEndOf="@id/rv_menu">
+
+        <ImageButton
+            android:id="@+id/btn_cart"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_cart_btn_white"
+            app:backgroundTint="#305E1D"
+            android:background="@drawable/bg_oval_cart_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_cart_badge"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/bg_rounded_corners"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintCircle="@id/btn_cart"
+            app:layout_constraintCircleAngle="45"
+            app:layout_constraintCircleRadius="20dp"
+            tools:visibility="visible"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

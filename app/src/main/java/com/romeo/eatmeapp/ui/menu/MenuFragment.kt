@@ -83,7 +83,7 @@ class MenuFragment : Fragment() {
         }
 
         binding.topMenuBar.btnCallWaiterMenu.setOnClickListener {
-            findNavController().navigate(R.id.action_menuFragment_to_cartFragment)
+            InfoDialog.show(this, getString(R.string.dialog_btn_call_waiter_text))
         }
     }
 
@@ -113,6 +113,10 @@ class MenuFragment : Fragment() {
                 menuAdapter.items = items
             }
         }
+
+        binding.btnCart.setOnClickListener {
+            findNavController().navigate(R.id.action_menuFragment_to_cartFragment)
+        }
     }
 
     private fun setupCategory() {
@@ -135,7 +139,6 @@ class MenuFragment : Fragment() {
             }
         }
     }
-
 
 
     override fun onDestroyView() {
