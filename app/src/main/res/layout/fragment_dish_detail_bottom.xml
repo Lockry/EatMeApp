@@ -114,17 +114,19 @@
         app:layout_constraintStart_toEndOf="@id/text_count"
         app:layout_constraintTop_toTopOf="@+id/text_count" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add_to_cart"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:backgroundTint="#016A6B"
-        android:drawableStart="@drawable/ic_cart_btn_dark"
         android:drawablePadding="8dp"
         android:text="@string/add_dish_add_cart"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
+        app:icon="@drawable/ic_cart_btn_white"
+        app:iconGravity="textStart"
+        app:iconTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/btn_plus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_plus"
