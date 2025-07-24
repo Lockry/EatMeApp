@@ -28,6 +28,10 @@ class MenuViewModel(
 
     private val _currentDishes = MutableStateFlow<List<DishModel>>(emptyList())
 
+    private val _selectedCategory = MutableStateFlow<CategoryModel?>(null)
+    val selectedCategory: StateFlow<CategoryModel?> = _selectedCategory.asStateFlow()
+
+
     val currentMenuItems: StateFlow<List<MenuItemModel>> = combine(
         _currentSubcategories,
         _currentDishes
@@ -64,6 +68,8 @@ class MenuViewModel(
     }
 
     fun selectCategory(category: CategoryModel) {
+        _selectedCategory.value = category
+
         if (category.subcategories.isNotEmpty()) {
             _currentSubcategories.value = category.subcategories
             _currentDishes.value = emptyList()

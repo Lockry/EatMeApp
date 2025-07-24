@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import com.romeo.eatmeapp.data.network.RetrofitClient
 import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
 import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
+import com.romeo.eatmeapp.ui.dialogs.InfoDialog
 import com.romeo.eatmeapp.ui.nointernet.NetworkStatus
 
 class MainActivity : AppCompatActivity() {
@@ -117,6 +118,9 @@ class MainActivity : AppCompatActivity() {
         inactivityJob = lifecycleScope.launch {
             delay(timerSplashScreen)
             if (shouldNavigateToSplash()) {
+                if (InfoDialog.isShowing()) {
+                    InfoDialog.dismiss()
+                }
                 findNavController(R.id.nav_host_fragment)
                     .navigate(R.id.action_go_toSplashScreen)
             }
@@ -166,4 +170,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
+
+
+
 }
