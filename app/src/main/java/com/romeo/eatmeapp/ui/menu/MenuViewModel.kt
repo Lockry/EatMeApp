@@ -83,4 +83,5 @@ class MenuViewModel(
         _currentDishes.value = subcategory.dishes
         _currentSubcategories.value = emptyList()
     }
+
 }

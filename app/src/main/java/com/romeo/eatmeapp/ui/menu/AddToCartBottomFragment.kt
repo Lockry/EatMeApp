@@ -73,7 +73,6 @@ class AddToCartBottomFragment : BottomSheetDialogFragment() {
 
         binding.textDishName.text = dish.name
         binding.textDishDesc.text = dish.desc
-        binding.dishPrice.text = dish.price.toString()
 
         quantity = 1
         updateQuantityUI()
@@ -98,6 +97,8 @@ class AddToCartBottomFragment : BottomSheetDialogFragment() {
 
     private fun updateQuantityUI() {
         binding.textCount.text = quantity.toString()
+        val totalPrice = dish.price * quantity
+        binding.dishPrice.text = totalPrice.toString()
     }
     override fun onDestroyView() {
         super.onDestroyView()
