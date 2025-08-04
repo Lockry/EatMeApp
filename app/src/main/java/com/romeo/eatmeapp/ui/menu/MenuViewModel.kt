@@ -15,9 +15,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class MenuViewModel(
+class MenuViewModel @Inject constructor(
     private val repository: RestaurantDataSource
 ) : ViewModel() {
 

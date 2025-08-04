@@ -6,21 +6,25 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.romeo.eatmeapp.AppApplication
 import com.romeo.eatmeapp.MainActivity
 import com.romeo.eatmeapp.RestaurantDataObject
-import com.romeo.eatmeapp.data.network.RetrofitClient
-import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
-import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
 import com.romeo.eatmeapp.databinding.ActivityAdminBinding
 import com.romeo.eatmeapp.services.MusicService
+import com.romeo.eatmeapp.ui.menu.MenuViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.getValue
 
 
 class AdminActivity : AppCompatActivity() {
@@ -29,11 +33,11 @@ class AdminActivity : AppCompatActivity() {
     private var musicBound = false
     private lateinit var musicService: MusicService
 
-    private lateinit var viewModel: AdminActivityViewModel
 
-    private val isTestMode: Boolean by lazy {
-        intent.getBooleanExtra(EXTRA_IS_TEST_MODE, false)
-    }
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: AdminActivityViewModel by viewModels { viewModelFactory }
+
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -48,17 +52,17 @@ class AdminActivity : AppCompatActivity() {
         }
     }
 
+
+
+
     @SuppressLint("ImplicitSamInstance")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val repository = if (isTestMode) {
-            FakeRestaurantRepository(this)
-        } else {
-            RealRestaurantRepository(RetrofitClient.api)
-        }
+        (application as AppApplication)
+            .appComponent
+            .inject(this)
 
-        viewModel = ViewModelProvider(this)[AdminActivityViewModel::class.java]
 
         binding = ActivityAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -92,22 +96,30 @@ class AdminActivity : AppCompatActivity() {
 
 
         binding.switchRepository.setOnCheckedChangeListener { _, isChecked ->
+            val app = applicationContext as AppApplication
 
-            (applicationContext as? MainActivity)?.isTestMode = isChecked
+            app.isTestMode = isChecked
 
             sharedPref.edit() { putBoolean("is_test_mode", isChecked) }
+
             Toast.makeText(this,
                 "Репозиторий: ${if (isChecked) "Тестовый" else "Боевой"}",
                 Toast.LENGTH_SHORT).show()
 
-            val newRepository = if (isChecked) {
-                FakeRestaurantRepository(this)
-            } else {
-                RealRestaurantRepository(RetrofitClient.api)
-            }
+            app.recreateAppComponent()
             lifecycleScope.launch {
-                RestaurantDataObject.forceReload(newRepository)
+                try {
+                    val newRepository = if (isChecked) {
+                        app.appComponent.provideFakeRepository()
+                    } else {
+                        app.appComponent.provideRealRepository()
+                    }
+                    RestaurantDataObject.forceReload(newRepository)
+                } catch (e: Exception) {
+                    Log.e("AdminActivity", "Failed to reload restaurant data. Error: $e")
+                }
             }
+
         }
 
         binding.btnBack.setOnClickListener {
@@ -130,9 +142,7 @@ class AdminActivity : AppCompatActivity() {
             }
         }
 
-        lifecycleScope.launch {
-            RestaurantDataObject.init(repository)
-        }
+
 
     }
 

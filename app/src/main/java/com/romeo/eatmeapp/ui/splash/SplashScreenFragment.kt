@@ -1,24 +1,24 @@
 package com.romeo.eatmeapp.ui.splash
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.romeo.eatmeapp.MainActivity
+import com.romeo.eatmeapp.AppApplication
 import com.romeo.eatmeapp.R
-import com.romeo.eatmeapp.data.network.RetrofitClient
-import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
-import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
 import com.romeo.eatmeapp.databinding.FragmentSplashScreenBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
@@ -26,24 +26,22 @@ class SplashScreenFragment : Fragment() {
     private var _binding: FragmentSplashScreenBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: SplashScreenViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val isTestMode: Boolean
-        get() = (activity as? MainActivity)?.isTestMode ?: false
+    private val viewModel: SplashScreenViewModel by viewModels { viewModelFactory }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // инжекция зависимости через AppComponent
+        (requireActivity().application as AppApplication)
+            .appComponent
+            .inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val repository = if (isTestMode) {
-            FakeRestaurantRepository(requireContext())
-        } else {
-            RealRestaurantRepository(RetrofitClient.api)
-        }
-
-        val factory = SplashScreenViewModelFactory(repository)
-
-        viewModel = ViewModelProvider(this, factory)[SplashScreenViewModel::class.java]
         viewModel.loadSplashScreens()
     }
 
