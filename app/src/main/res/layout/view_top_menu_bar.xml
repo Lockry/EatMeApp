@@ -30,7 +30,6 @@
         android:layout_marginStart="6dp"
         android:ellipsize="end"
         android:maxLines="1"
-
         android:textSize="27sp"
         android:textStyle="bold"
         app:autoSizeMaxTextSize="27sp"
@@ -84,4 +83,8 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
 
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

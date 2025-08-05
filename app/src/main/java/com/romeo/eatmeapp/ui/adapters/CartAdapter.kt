@@ -1,6 +1,5 @@
 package com.romeo.eatmeapp.ui.adapters
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.romeo.eatmeapp.R
-import com.romeo.eatmeapp.data.model.CategoryModel
 import com.romeo.eatmeapp.data.model.DishModel
 import com.romeo.eatmeapp.ui.adapters.diffcallback.BaseAnimatedDiffAdapter
 import com.romeo.eatmeapp.ui.adapters.diffcallback.GenericDiffCallback
@@ -21,9 +19,7 @@ import com.romeo.eatmeapp.ui.cart.CartFragmentViewModel
 
 class CartAdapter(
     private val listener: CartFragmentViewModel
-) : BaseAnimatedDiffAdapter<CategoryModel, CartAdapter.CartViewHolder>(GenericDiffCallback()) {
-
-    private var cartItems: List<DishModel> = emptyList()
+) : BaseAnimatedDiffAdapter<DishModel, CartAdapter.CartViewHolder>(GenericDiffCallback()) {
 
     inner class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dishName: TextView = itemView.findViewById(R.id.textView_dish_name)
@@ -43,7 +39,7 @@ class CartAdapter(
     }
 
     override fun onBindView(holder: CartViewHolder, position: Int) {
-        val dish = cartItems[position]
+        val dish = items[position]
         val imageUri = dish.imageUri.toUri()
 
         Log.d("CartAdapter", "Отрисовываю элемент: ${dish.name}")
@@ -53,7 +49,7 @@ class CartAdapter(
             .into(holder.imageDish)
 
         holder.dishName.text = dish.name
-        holder.dishPrice.text = "${dish.price * dish.quantity}"
+        holder.dishPrice.text = "${dish.price * dish.quantity} ₽"
         holder.quantityText.text = dish.quantity.toString()
 
         holder.plusButton.setOnClickListener {
@@ -69,14 +65,10 @@ class CartAdapter(
         }
     }
 
-    fun submitList(newItems: List<DishModel>) {
-        Log.d("CartAdapter", "submitList called with size = ${newItems.size}")
-        cartItems = newItems
-    }
 
     override fun getItemCount(): Int {
-        Log.d("CartAdapter", "getItemCount() = ${cartItems.size}")
-        return cartItems.size
+        Log.d("CartAdapter", "getItemCount() = ${items.size}")
+        return items.size
     }
 
     override fun getItemViewType(position: Int): Int = 0

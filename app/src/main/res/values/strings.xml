@@ -12,8 +12,12 @@
     <string name="btn_menu_main_menu">Меню</string>
     <string name="btn_games_main_menu">Игры</string>
     <string name="btn_payment_main_menu">Оплата</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nointernet">Упс!\nНет интернета!\nЖдем подключения…</string>
+    <string name="text_empty_cart">Корзина пуста! \n Сделаем заказ? :)</string>
+    <string name="dialog_menu_text">Сначала выбери блюда, затем переходи к корзине! Если что, вызови официанта! :)</string>
+    <string name="dialog_main_menu_text">Переходи в меню и сделай заказ! Нужна помощь? Вызови официанта! :)</string>
+    <string name="dialog_btn_text">Понятненько!</string>
+    <string name="dialog_btn_call_waiter_text">Официант уже идет! Ждите!</string>
 
 </resources>

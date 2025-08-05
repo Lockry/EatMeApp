@@ -19,6 +19,7 @@ import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.databinding.FragmentMenuBinding
 import com.romeo.eatmeapp.ui.adapters.CategoryAdapter
 import com.romeo.eatmeapp.ui.adapters.MenuAdapter
+import com.romeo.eatmeapp.ui.dialogs.InfoDialog
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -63,17 +64,29 @@ class MenuFragment : Fragment() {
 
         setupMenu()
         setupCategory()
+        setupTopBar()
 
+    }
+
+    private fun setupTopBar() {
+        lifecycleScope.launch {
+            viewModel.selectedCategory.collect { category ->
+                category?.let {
+                    binding.topMenuBar.tVTypeMenu.text = it.name
+                }
+            }
+        }
         binding.topMenuBar.btnHomeMenu.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_mainMenuFragment)
         }
 
-        binding.topMenuBar.btnInfoMenu.setOnClickListener { /* TODO */ }
-
-        binding.topMenuBar.btnCallWaiterMenu.setOnClickListener {
-            findNavController().navigate(R.id.action_menuFragment_to_cartFragment)
+        binding.topMenuBar.btnInfoMenu.setOnClickListener {
+            InfoDialog.show(this, getString(R.string.dialog_menu_text))
         }
 
+        binding.topMenuBar.btnCallWaiterMenu.setOnClickListener {
+            InfoDialog.show(this, getString(R.string.dialog_btn_call_waiter_text))
+        }
     }
 
     private fun setupMenu() {
@@ -81,8 +94,10 @@ class MenuFragment : Fragment() {
         val menuAdapter = MenuAdapter(
             onDishClick = { dish ->
                 AddToCartBottomFragment.newInstance(dish)
-                    .show((context as FragmentActivity)
-                        .supportFragmentManager, "AddToCartBottomSheet")
+                    .show(
+                        (context as FragmentActivity)
+                            .supportFragmentManager, "AddToCartBottomSheet"
+                    )
             },
             onSubcategoryClick = { subcategory ->
                 viewModel.selectSubcategory(subcategory)
@@ -100,13 +115,17 @@ class MenuFragment : Fragment() {
                 menuAdapter.items = items
             }
         }
+
+        binding.btnCart.setOnClickListener {
+            findNavController().navigate(R.id.action_menuFragment_to_cartFragment)
+        }
     }
 
     private fun setupCategory() {
         // адаптер категорий
         val categoryAdapter = CategoryAdapter { selectedCategory ->
             viewModel.selectCategory(selectedCategory)
-            binding.topMenuBar.tVTypeMenu.text = selectedCategory.name.toString()
+
         }
 
         binding.rvCategoryMenu.apply {
@@ -126,6 +145,7 @@ class MenuFragment : Fragment() {
             }
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

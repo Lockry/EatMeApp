@@ -29,6 +29,10 @@ class MenuViewModel @Inject constructor(
 
     private val _currentDishes = MutableStateFlow<List<DishModel>>(emptyList())
 
+    private val _selectedCategory = MutableStateFlow<CategoryModel?>(null)
+    val selectedCategory: StateFlow<CategoryModel?> = _selectedCategory.asStateFlow()
+
+
     val currentMenuItems: StateFlow<List<MenuItemModel>> = combine(
         _currentSubcategories,
         _currentDishes
@@ -65,6 +69,8 @@ class MenuViewModel @Inject constructor(
     }
 
     fun selectCategory(category: CategoryModel) {
+        _selectedCategory.value = category
+
         if (category.subcategories.isNotEmpty()) {
             _currentSubcategories.value = category.subcategories
             _currentDishes.value = emptyList()
@@ -78,4 +84,5 @@ class MenuViewModel @Inject constructor(
         _currentDishes.value = subcategory.dishes
         _currentSubcategories.value = emptyList()
     }
+
 }

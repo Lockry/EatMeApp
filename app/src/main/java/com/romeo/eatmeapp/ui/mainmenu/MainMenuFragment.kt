@@ -19,6 +19,7 @@ import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.RestaurantDataObject
 import com.romeo.eatmeapp.adminpanel.AdminActivity
 import com.romeo.eatmeapp.databinding.FragmentMainMenuBinding
+import com.romeo.eatmeapp.ui.dialogs.InfoDialog
 import kotlinx.coroutines.launch
 
 class MainMenuFragment : Fragment() {
@@ -59,9 +60,17 @@ class MainMenuFragment : Fragment() {
             findNavController().navigate(R.id.action_mainMenuFragment_to_menuFragment)
         }
 
+        binding.btnHowItMainMenu.setOnClickListener {
+            InfoDialog.show(this, getString(R.string.dialog_main_menu_text))
+        }
+
         binding.btnGames.setOnClickListener {}
         binding.btnPayment.setOnClickListener {}
-        binding.btnCallWaiterMainMenu.setOnClickListener {}
+
+        binding.btnCallWaiterMainMenu.setOnClickListener {
+            InfoDialog.show(this, getString(R.string.dialog_btn_call_waiter_text))
+
+        }
 
         binding.btnCartMainMenu.setOnClickListener {
             findNavController().navigate(R.id.action_mainMenuFragment_to_cartFragment2)
