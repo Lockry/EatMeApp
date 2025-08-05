@@ -21,7 +21,6 @@ import com.romeo.eatmeapp.MainActivity
 import com.romeo.eatmeapp.RestaurantDataObject
 import com.romeo.eatmeapp.databinding.ActivityAdminBinding
 import com.romeo.eatmeapp.services.MusicService
-import com.romeo.eatmeapp.ui.menu.MenuViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.getValue

@@ -31,8 +31,6 @@ class AppApplication : Application() {
             .networkModule(NetworkModule)
             .repositoryModule(RepositoryModule(isTestMode))
             .build()
-
-        initializeRestaurantData()
     }
 
     fun recreateAppComponent() {
