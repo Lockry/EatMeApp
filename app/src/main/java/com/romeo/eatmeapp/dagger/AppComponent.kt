@@ -1,13 +1,10 @@
 package com.romeo.eatmeapp.dagger
 
-import android.content.Context
 import com.romeo.eatmeapp.adminpanel.AdminActivity
 import com.romeo.eatmeapp.data.repository.RestaurantDataSource
 import com.romeo.eatmeapp.ui.menu.MenuFragment
 import com.romeo.eatmeapp.ui.splash.SplashScreenFragment
 import dagger.Component
-import dagger.Module
-import dagger.Provides
 import javax.inject.Named
 import javax.inject.Singleton
 
