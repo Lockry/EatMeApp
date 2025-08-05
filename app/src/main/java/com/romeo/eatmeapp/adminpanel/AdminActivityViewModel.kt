@@ -8,9 +8,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
 
-class AdminActivityViewModel : ViewModel() {
+class AdminActivityViewModel @Inject constructor(): ViewModel() {
 
     //проксти на сингл тон
     val restaurant: StateFlow<RestaurantModel?> = RestaurantDataObject.restaurantModel

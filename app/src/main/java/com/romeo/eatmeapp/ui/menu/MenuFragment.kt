@@ -1,50 +1,52 @@
 package com.romeo.eatmeapp.ui.menu
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.romeo.eatmeapp.AppApplication
 import com.romeo.eatmeapp.MainActivity
 import com.romeo.eatmeapp.R
-import com.romeo.eatmeapp.data.network.RetrofitClient
-import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
-import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
 import com.romeo.eatmeapp.databinding.FragmentMenuBinding
 import com.romeo.eatmeapp.ui.adapters.CategoryAdapter
 import com.romeo.eatmeapp.ui.adapters.MenuAdapter
 import com.romeo.eatmeapp.ui.dialogs.InfoDialog
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MenuFragment : Fragment() {
 
     private var _binding: FragmentMenuBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: MenuViewModel
 
-    private val isTestMode: Boolean
-        get() = (activity as? MainActivity)?.isTestMode ?: false
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: MenuViewModel by viewModels { viewModelFactory }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // инжекция зависимости через AppComponent
+        (requireActivity().application as AppApplication)
+            .appComponent
+            .inject(this)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-        val repository = if (isTestMode) {
-            FakeRestaurantRepository(requireContext())
-        } else {
-            RealRestaurantRepository(RetrofitClient.api)
-        }
-
-        val factory = MenuViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory)[MenuViewModel::class.java]
         viewModel.loadMenu()
     }
 
@@ -136,6 +138,10 @@ class MenuFragment : Fragment() {
             viewModel.categories.collect { categories ->
                 categoryAdapter.items = categories
                 categoryAdapter.selectFirstIfEmpty()
+
+                categories.firstOrNull()?.name?.let { name ->
+                    binding.topMenuBar.tVTypeMenu.text = name
+                }
             }
         }
     }

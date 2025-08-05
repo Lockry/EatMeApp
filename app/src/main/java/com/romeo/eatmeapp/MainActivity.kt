@@ -16,9 +16,6 @@ import com.romeo.eatmeapp.services.MusicService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.romeo.eatmeapp.data.network.RetrofitClient
-import com.romeo.eatmeapp.data.repository.FakeRestaurantRepository
-import com.romeo.eatmeapp.data.repository.RealRestaurantRepository
 import com.romeo.eatmeapp.ui.dialogs.InfoDialog
 import com.romeo.eatmeapp.ui.nointernet.NetworkStatus
 
@@ -32,8 +29,8 @@ class MainActivity : AppCompatActivity() {
     private var inactivityJob: Job? = null
     private val timerSplashScreen = 10_000L // 10 сек
 
-    var isTestMode = true
     var musicEnabled = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         setUpMusicService()
 
-        observeNetworkChanges()
 
-        reloadRestaurantData()
 
         resetInactivityTimer()
     }
@@ -59,11 +54,11 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         loadPrefs()
-        reloadRestaurantData()
     }
 
     override fun onStart() {
         super.onStart()
+        observeNetworkChanges()
         resetInactivityTimer()
         if (musicEnabled) {
             startService(Intent(this, MusicService::class.java))
@@ -145,21 +140,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun reloadRestaurantData() {
-        lifecycleScope.launch {
-            val repository = getRepository()
-            RestaurantDataObject.forceReload(repository)
-        }
-    }
-
-    private fun getRepository() = if (isTestMode) {
-        FakeRestaurantRepository(this)
-    } else {
-        RealRestaurantRepository(RetrofitClient.api)
-    }
-
     private fun loadPrefs() {
-        isTestMode = prefs.getBoolean("is_test_mode", true)
         musicEnabled = prefs.getBoolean("music_enabled", true)
     }
 

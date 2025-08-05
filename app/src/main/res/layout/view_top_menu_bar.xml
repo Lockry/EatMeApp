@@ -30,7 +30,6 @@
         android:layout_marginStart="6dp"
         android:ellipsize="end"
         android:maxLines="1"
-        tools:text="Title Tool Bar"
         android:textSize="27sp"
         android:textStyle="bold"
         app:autoSizeMaxTextSize="27sp"

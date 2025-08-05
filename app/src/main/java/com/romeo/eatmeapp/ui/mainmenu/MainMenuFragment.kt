@@ -1,5 +1,7 @@
 package com.romeo.eatmeapp.ui.mainmenu
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.romeo.eatmeapp.AppApplication
 import com.romeo.eatmeapp.MainActivity
 import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.RestaurantDataObject
@@ -25,8 +28,7 @@ class MainMenuFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val isTestMode: Boolean
-        get() = (activity as? MainActivity)?.isTestMode ?: false
-
+        get() = (activity as? AppApplication)?.isTestMode ?: false
 
     private var tapCount = 0
     private val requiredTaps = 4
@@ -45,7 +47,6 @@ class MainMenuFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 RestaurantDataObject.restaurantModel.collect { data ->
@@ -76,6 +77,7 @@ class MainMenuFragment : Fragment() {
         }
 
         binding.btnAdminPanel.setOnClickListener {
+
             tapCount++
             if (tapCount >= requiredTaps) {
                 val intent = Intent(requireContext(), AdminActivity::class.java).apply {
@@ -93,4 +95,5 @@ class MainMenuFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }
