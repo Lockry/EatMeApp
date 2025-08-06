@@ -31,6 +31,8 @@ class AppApplication : Application() {
             .networkModule(NetworkModule)
             .repositoryModule(RepositoryModule(isTestMode))
             .build()
+
+        initializeRestaurantData()
     }
 
     fun recreateAppComponent() {
@@ -41,7 +43,7 @@ class AppApplication : Application() {
     }
 
     private fun initializeRestaurantData() {
-        // Запускаем инициализацию в фоне
+        // Запускаем инициализацию в фоне при необходимости
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val repository = if (isTestMode) {

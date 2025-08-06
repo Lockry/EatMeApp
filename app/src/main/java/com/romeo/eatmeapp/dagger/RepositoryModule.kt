@@ -36,5 +36,4 @@ class RepositoryModule(private val isTestMode: Boolean) {
             RealRestaurantRepository(api)
         }
     }
-
 }
