@@ -32,7 +32,7 @@ class AppApplication : Application() {
             .repositoryModule(RepositoryModule(isTestMode))
             .build()
 
-        initializeRestaurantData()
+        initRestaurantData()
     }
 
     fun recreateAppComponent() {
@@ -42,8 +42,8 @@ class AppApplication : Application() {
             .build()
     }
 
-    private fun initializeRestaurantData() {
-        // Запускаем инициализацию в фоне при необходимости
+    private fun initRestaurantData() {
+        // инициализацию в фоне при необходимости
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val repository = if (isTestMode) {
