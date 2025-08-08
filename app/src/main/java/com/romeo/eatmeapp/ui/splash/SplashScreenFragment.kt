@@ -3,19 +3,24 @@ package com.romeo.eatmeapp.ui.splash
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.romeo.eatmeapp.AppApplication
 import com.romeo.eatmeapp.R
 import com.romeo.eatmeapp.databinding.FragmentSplashScreenBinding
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,7 +47,7 @@ class SplashScreenFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.loadSplashScreens()
+        viewModel.loadSplashScreensFlow()
     }
 
     override fun onCreateView(
@@ -58,28 +63,34 @@ class SplashScreenFragment : Fragment() {
 
         val splashImage = binding.imageSplash
 
-        lifecycleScope.launch {
-            viewModel.ads.collect { splashList ->
-                if (splashList.isEmpty()) return@collect
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.ads
+                    .onEach { splashList ->
+                        Log.d("SplashScreenFragment", "New data: $splashList")
+                    }
+                    .collect { splashList ->
+                    if (splashList.isEmpty()) return@collect
 
-                var index = 0
-                while (isActive) {
-                    val imageUri = splashList[index % splashList.size].imageUri
+                    var index = 0
+                    while (isActive) {
+                        val imageUri = splashList[index % splashList.size].imageUri
 
-                    splashImage.alpha = 0f
+                        splashImage.alpha = 0f
 
-                    Glide.with(requireContext())
-                        .load(imageUri)
-                        .into(splashImage)
+                        Glide.with(requireContext())
+                            .load(imageUri)
+                            .into(splashImage)
 
-                    splashImage.animate().alpha(1f).setDuration(500).start()
+                        splashImage.animate().alpha(1f).setDuration(500).start()
 
-                    delay(3000)
+                        delay(3000)
 
-                    splashImage.animate().alpha(0f).setDuration(500).start()
+                        splashImage.animate().alpha(0f).setDuration(500).start()
 
-                    delay(500)
-                    index++
+                        delay(500)
+                        index++
+                    }
                 }
             }
         }

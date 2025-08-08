@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +49,7 @@ class MenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.loadMenu()
+        viewModel.loadMenuFlow()
     }
 
     override fun onCreateView(
@@ -69,13 +71,17 @@ class MenuFragment : Fragment() {
     }
 
     private fun setupTopBar() {
-        lifecycleScope.launch {
-            viewModel.selectedCategory.collect { category ->
-                category?.let {
-                    binding.topMenuBar.tVTypeMenu.text = it.name
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.selectedCategory.collect { category ->
+                    category?.let {
+                        binding.topMenuBar.tVTypeMenu.text = it.name
+                    }
                 }
             }
         }
+
         binding.topMenuBar.btnHomeMenu.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_mainMenuFragment)
         }
@@ -110,9 +116,11 @@ class MenuFragment : Fragment() {
         )
         binding.rvMenu.adapter = menuAdapter
 
-        lifecycleScope.launch {
-            viewModel.currentMenuItems.collect { items ->
-                menuAdapter.items = items
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.currentMenuItems.collect { items ->
+                    menuAdapter.items = items
+                }
             }
         }
 
@@ -134,13 +142,15 @@ class MenuFragment : Fragment() {
             adapter = categoryAdapter
         }
 
-        lifecycleScope.launch {
-            viewModel.categories.collect { categories ->
-                categoryAdapter.items = categories
-                categoryAdapter.selectFirstIfEmpty()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.categories.collect { categories ->
+                    categoryAdapter.items = categories
+                    categoryAdapter.selectFirstIfEmpty()
 
-                categories.firstOrNull()?.name?.let { name ->
-                    binding.topMenuBar.tVTypeMenu.text = name
+                    categories.firstOrNull()?.name?.let { name ->
+                        binding.topMenuBar.tVTypeMenu.text = name
+                    }
                 }
             }
         }

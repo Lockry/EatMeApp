@@ -6,13 +6,16 @@ import androidx.lifecycle.viewModelScope
 import com.romeo.eatmeapp.data.model.CategoryModel
 import com.romeo.eatmeapp.data.model.DishModel
 import com.romeo.eatmeapp.data.model.MenuItemModel
+import com.romeo.eatmeapp.data.model.RestaurantModel
 import com.romeo.eatmeapp.data.model.SubCategoryModel
 import com.romeo.eatmeapp.data.repository.RestaurantDataSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,7 +35,6 @@ class MenuViewModel @Inject constructor(
     private val _selectedCategory = MutableStateFlow<CategoryModel?>(null)
     val selectedCategory: StateFlow<CategoryModel?> = _selectedCategory.asStateFlow()
 
-
     val currentMenuItems: StateFlow<List<MenuItemModel>> = combine(
         _currentSubcategories,
         _currentDishes
@@ -48,23 +50,25 @@ class MenuViewModel @Inject constructor(
         emptyList()
     )
 
-    // Загрузка меню из репозитория
-    fun loadMenu() {
+
+    fun loadMenuFlow(){
         viewModelScope.launch {
-            try {
-                val restaurantData = repository.getRestaurantData()
-                val menu = restaurantData.menu
-                _categories.value = menu
-                menu.firstOrNull()?.let {
-                    selectCategory(it)
+            repository.getRestaurantDataFlow()
+                .retry(3)
+                .catch { e ->
+                    Log.e("MenuVM", "No data form FLOW:", e)
+                    _selectedCategory.value = null
+                    _currentSubcategories.value = emptyList()
+                    _currentDishes.value = emptyList()
                 }
-            } catch (e: Exception) {
-                // TODO: Обработка ошибок
-                Log.e("MenuLoadModule", "Error: $e")
-                _categories.value = emptyList()
-                _currentSubcategories.value = emptyList()
-                _currentDishes.value = emptyList()
-            }
+                .collect {restData ->
+                    val menu = restData.firstOrNull()?.menu ?: emptyList()
+                    _categories.value = menu
+                    val firstCategory = menu.firstOrNull()
+                    firstCategory?.let { selectCategory(it)}
+                }
+
+
         }
     }
 

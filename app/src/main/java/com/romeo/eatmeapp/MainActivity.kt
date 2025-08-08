@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
 
         setUpMusicService()
 
-
-
         resetInactivityTimer()
     }
 
@@ -151,8 +149,4 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
-
-
-
-
 }

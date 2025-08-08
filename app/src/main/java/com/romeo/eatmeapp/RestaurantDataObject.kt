@@ -25,7 +25,4 @@ object RestaurantDataObject {
         Log.d("[RestaurantData]", "Reloaded data: $data")
         _restaurantModel.value = data
     }
-
-
-
 }

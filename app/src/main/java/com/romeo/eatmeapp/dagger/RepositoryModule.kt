@@ -21,19 +21,22 @@ class RepositoryModule(private val isTestMode: Boolean) {
     }
 
     @Provides
-
+    @Singleton
     @Named("real")
-    fun provideRealRepository(api: RestaurantApi): RestaurantDataSource {
-        return RealRestaurantRepository(api)
+    fun provideRealRepository(api: RestaurantApi,
+                              refreshTimer: Long): RestaurantDataSource {
+        return RealRestaurantRepository(api, refreshTimer)
     }
 
     @Provides
     @Singleton
-    fun provideRepository(context: Context, api: RestaurantApi): RestaurantDataSource {
+    fun provideRepository(context: Context,
+                          api: RestaurantApi,
+                          refreshTimer: Long): RestaurantDataSource {
         return if (isTestMode) {
             FakeRestaurantRepository(context)
         } else {
-            RealRestaurantRepository(api)
+            RealRestaurantRepository(api, refreshTimer)
         }
     }
 }

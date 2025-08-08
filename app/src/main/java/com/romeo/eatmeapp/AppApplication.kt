@@ -17,6 +17,8 @@ class AppApplication : Application() {
 
     var isTestMode = true
 
+    val refreshDataTimer = 60_000L
+
     lateinit var appComponent: AppComponent
         private set
 
